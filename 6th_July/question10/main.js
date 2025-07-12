@@ -40,4 +40,4 @@ car1.viewMaintenance();
 
 customer2.getCarOnRent(car1);
 let rent2 = calculateRent(40, "suv", customer2)
-console.log(rent2)
+//console.log(rent2)
