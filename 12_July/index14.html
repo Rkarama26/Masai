@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Multi-Method CSS Example</title>
+
+  <!-- Internal CSS style block -->
+  <style>
+    h1 {
+      color: navy;
+      font-size: 28px;
+      background-color: #f0f0f0; /*  FIXED: '#f0f0' is invalid — should be a valid 6-digit hex like '#f0f0f0' */
+    }
+
+    .highlighted-text {
+      background-color: yellow;
+      color: red;
+    }
+    #main-container{
+      color: aqua;
+      background-color: #333;
+    }
+  
+    /* external css file removed */
+  </style>
+
+ 
+</head>
+<body>
+
+  <!-- Styled by internal CSS -->
+  <h1>Main Title</h1>
+
+  <!--  FIXED: Invalid hex code '#3333'. Should be 3, 6, or 8 digits. -->
+  <p style="font-size: 16px; color: #333;">This paragraph has inline styles applied.</p>
+
+  <!-- Styled using class selector from internal CSS -->
+  <p class="highlighted-text">This paragraph uses a class-based style.</p>
+
+  <!-- This div will be styled by the external stylesheet if styles.css contains styles for #main-container -->
+  <div id="main-container">
+    <p>This div should have styles from the external stylesheet.</p>
+  </div>
+
+</body>
+</html>
