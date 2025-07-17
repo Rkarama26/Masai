@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sticky Header & Fixed Footer</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background-color: #333;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      z-index: 1000;
+    }
+
+    main {
+      padding: 20px;
+      margin-bottom: 60px; /* space for fixed footer */
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #222;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    p {
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Sticky Header</h1>
+  </header>
+
+  <main>
+    <h2>Main Content</h2>
+    <!-- 10+ paragraphs to ensure scroll -->
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    <p>Vestibulum quis lorem a erat cursus convallis.</p>
+    <p>Nullam at turpis vitae nisi malesuada fermentum.</p>
+    <p>Sed feugiat nunc nec suscipit gravida.</p>
+    <p>Aliquam erat volutpat. Duis a nibh a justo sagittis gravida.</p>
+    <p>Curabitur feugiat nisl non diam euismod finibus.</p>
+    <p>Proin nec mauris sed velit faucibus sodales.</p>
+    <p>Vivamus commodo justo in fermentum vehicula.</p>
+    <p>Integer pretium, purus in lacinia sollicitudin, neque dolor facilisis odio.</p>
+    <p>Nam sit amet orci nec nulla feugiat dapibus.</p>
+    <p>Extra paragraph for more scroll content.</p>
+  </main>
+
+  <footer>
+    Fixed Footer - Always at the bottom
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Display Types Demo</title>
+  <style>
+    #block-element {
+      display: block;
+      width: 100%;
+      border: 2px solid blue;
+      background-color: #e0f7fa;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    #inline-element {
+      display: inline;
+      background-color: #ffe082;
+      color: black;
+      padding: 2px 6px;
+    }
+
+    #inline-block-element {
+      display: inline-block;
+      width: 120px;
+      height: 60px;
+      background-color: #dcedc8;
+      border: 1px solid green;
+      margin: 10px;
+      text-align: center;
+      line-height: 60px;
+    }
+
+    #hidden-element {
+      display: none;
+      background-color: #f8bbd0;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px dashed red;
+    }
+
+    button {
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="block-element">
+    I am a <strong>block</strong> element. I take up the full width.
+  </div>
+
+  <p>
+    This is a paragraph with an <span id="inline-element">inline element</span> inside it. Notice it flows with the text.
+  </p>
+
+  <div>
+    Here are two <span id="inline-block-element">inline-block</span> elements
+    <span id="inline-block-element" style="background-color: #c5cae9;">side-by-side</span>.
+  </div>
+
+  <button onclick="toggleHidden()">Toggle Hidden Element</button>
+
+  <div id="hidden-element">
+    I was hidden! Now I'm visible thanks to JavaScript.
+  </div>
+
+  <script>
+    function toggleHidden() {
+      const el = document.getElementById('hidden-element');
+      el.style.display = (el.style.display === 'none' || el.style.display === '') ? 'block' : 'none';
+    }
+  </script>
+
+</body>
+</html>

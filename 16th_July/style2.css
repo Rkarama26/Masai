@@ -1,0 +1,155 @@
+body {
+    height: 200vh;
+}
+
+/* positions -- 
+
+sticky - above the viewport, not move after given distance
+fixed - above the viewport, fixed the position on view port
+relative - On the viewPort, move with respect to it's original position
+absolute - move with respect to it's nearest positioned ancestor.
+
+*/
+/* 
+div#box {
+    width: 100%;
+    height: 10vh;
+    background-color: yellow;
+    position: sticky;
+    top: 0;
+    margin-top: 50vh;
+}
+ */
+/* 
+
+div#box1 {
+    background-color: orange;
+    width: 300px;
+    height: 300px;
+    margin: auto;
+}
+  this will move by it's original position on viewport 
+div#box1>div {
+    background-color: blue;
+    width: 150px;
+    height: 150px;
+    position: relative;
+    top: 150px;                  
+    left: 150px;
+}
+  this will move by it's original position on viewport 
+div#box1>div>div {
+    background-color: yellow;
+    width: 50px;
+    height: 50px;
+    position: relative;
+    top: 100px;
+    left: 100px;
+
+}
+ */
+/* 
+div#box1 {
+    background-color: orange;
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    position: absolute;
+    top: 100px;
+    left: 200px;
+}
+
+div#box1>div {
+    background-color: blue;
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+not it will move with respect to it's parent > which have position property
+div#box1>div>div {
+    background-color: yellow;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 100px;
+    left: 100px;
+
+} 
+    */
+
+div#main_box {
+    background-color: grey;
+    width: 500px;
+    height: 500px;
+    margin: auto;
+    position: relative;
+}
+
+div#main_box>div {
+    background-color: aqua;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    /* Horizontal centering */
+    align-items: center;
+    /* Vertical centering */
+    text-align: center;
+    border-radius: 5px;
+}
+
+div#main_box>:nth-child(1) {
+    background-color: aqua;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+
+    position: absolute;
+    top: 200px;
+    left: 200px;
+}
+
+div#main_box>:nth-child(2) {
+
+    left: 200px;
+}
+
+div#main_box>:nth-child(3) {
+
+    right: 80px;
+    top: 80px;
+}
+
+div#main_box>:nth-child(4) {
+
+    right: 0px;
+    top: 200px;
+}
+
+div#main_box>:nth-child(5) {
+    right: 80px;
+    bottom: 80px;
+}
+div#main_box>:nth-child(6) {
+    left: 80px;
+    bottom: 80px;
+}
+div#main_box>:nth-child(7) {
+
+    left: 200px;
+    bottom: 0;
+}
+div#main_box>:nth-child(8) {
+
+    left: 80px;
+    top: 80px;
+}
+div#main_box>:nth-child(9) {
+
+    left: 0px;
+    top: 200px;
+}

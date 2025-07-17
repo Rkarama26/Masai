@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Box Model Example</title>
+  <style>
+    .box {
+      width: 200px;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    .box1 {
+      background-color: teal;
+      padding: 20px;
+      border: 5px solid black;
+      margin: 30px;
+      box-sizing: content-box;
+    }
+
+    .box2 {
+      background-color: tomato;
+      padding: 15px;
+      border: 3px dashed white;
+      margin: 20px;
+      box-sizing: border-box;
+    }
+
+    .box3 {
+      background-color: slateblue;
+      padding: 10px;
+      border: 4px dotted yellow;
+      margin: 10px;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box box1">
+    <p>This is Box 1 (content-box). Padding and border are added outside the width.</p>
+  </div>
+
+  <div class="box box2">
+    <p>This is Box 2 (border-box). Padding and border are included inside the width.</p>
+  </div>
+
+  <div class="box box3">
+    <p>This is Box 3 (border-box). Different styles applied here too.</p>
+  </div>
+
+</body>
+</html>
