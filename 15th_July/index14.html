@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fix Layout</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<style>
+    /* Reset  for all elements */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex; /*  for horizontal layout */
+    justify-content: space-around; /*  space between boxes */
+    padding: 20px; /*  padding for internal spacing */
+    margin-top: 20px; /*  spacing below the h1 */
+}
+
+.box {
+    width: 100px;
+    height: 100px;
+    background: lightblue;
+    border: 1px solid black;
+    margin: 10px; /* Positive margin to separate boxes */
+    position: relative; /* Changed from absolute to relative */
+}
+
+.text {
+    position: relative; /*  text to stay in normal document flow */
+    text-align: center; /* Center the text */
+    margin-top: 30px; /* Add spacing from the container */
+}
+
+</style>
+<body>
+    <h1>Debugging Task</h1>
+    
+    <div class="container">
+        <div class="box">Box 1</div>
+        <div class="box">Box 2</div>
+        <div class="box">Box 3</div>
+    </div>
+
+    <p class="text">Fix my position!</p>
+</body>
+</html>

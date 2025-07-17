@@ -1,0 +1,96 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+
+/*
+Descendant Combinators (space)
+select all h1 tags 
+*/
+/* div h1{
+    color: red;
+} */
+
+
+/*
+Child Combinator (>)
+*/
+/* div#head2 h1{
+    color: red;
+} */
+
+/* div#head2>h1{
+    color: red;
+} */
+
+/*
+Adjacent Sibling Combinator(+)
+*/
+
+/* if i have to choose 1 specified tag after a tag only */
+/* div#head2>span + div{
+    color: red;
+} */
+
+/* General Sibling Combinator(~) */
+
+/* div#head2>h2~div{
+    color: red;
+} */
+
+/* img+div>p{
+ color: red;
+} */
+
+/* All combonators has specificity value 0 */
+img+div.car>p[title=hello] {
+    /*  specificity  1+0+1+10+0+1+10 = 23*/
+}
+
+/* investor page -----------------------*/
+
+div {
+    width: 20%;
+    min-width: 200px;
+    display: inline-block;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+img {
+    width: 100%;
+    border: 2px solid;
+
+}
+
+p+img {
+    width: 150px;
+}
+
+h3,
+p {
+    text-align: center;
+}
+
+/*Navigation bar ------------------------------- */
+
+nav img {
+    width: 150px;
+}
+
+nav img+button {
+    background-color: lightcoral;
+}
+
+nav button {
+    background-color: red;
+    border: none;
+    border-radius: 10px;
+
+    height: 50px;
+    width: 100px;
+}
+nav a {
+    text-decoration: none;
+    color: black;
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Navigation Bar</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<style>
+    /* Reset default styles */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  background-color: #f0f0f0;
+  padding: 15px;
+}
+
+.section1 a {
+  color: blue;
+}
+
+.section2 a {
+  color: green;
+}
+
+.section3 a {
+  color: brown;
+}
+
+/* HOVER AND ACTIVE STATES */
+.section a:hover {
+  text-decoration: underline;
+  color: darkorange;
+}
+
+.section a:active {
+  color: red;
+}
+
+.section > a {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.section a[href^="https"] {
+  color: purple !important;
+}
+
+</style>
+<body>
+  <nav class="navbar">
+    <div class="section section1">
+      <a href="https://example.com">Home</a>
+      <a href="about.html">About</a>
+      <div>
+        <a href="nested.html">Nested About Link</a>
+      </div>
+    </div>
+    
+    <div class="section section2">
+      <a href="https://contact.com">Contact</a>
+      <a href="support.html">Support</a>
+      <div>
+        <a href="nested-support.html">Nested Support Link</a>
+      </div>
+    </div>
+
+    <div class="section section3">
+      <a href="https://blog.com">Blog</a>
+      <a href="posts.html">Posts</a>
+      <div>
+        <a href="nested-posts.html">Nested Posts Link</a>
+      </div>
+    </div>
+  </nav>
+</body>
+</html>
