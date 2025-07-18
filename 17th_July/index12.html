@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flexbox flex-direction Demo</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            /* Items are arranged horizontally (row is default) */
+            /* Change 'row' to 'column' to stack items vertically */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #c80e0e;
+        }
+
+        .item {
+            background-color: #2196f3;
+            color: white;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 6px;
+            font-size: 18px;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .item:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .column-layout {
+            flex-direction: column;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container column-layout">
+        <div class="item">Item 1</div>
+        <div class="item">Item 2</div>
+        <div class="item">Item 3</div>
+        <div class="item">Item 4</div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Debug Navbar</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between; /* Logo left, links right */
+      align-items: center;            /* Vertically center items */
+      background-color: #333;
+      padding: 10px 20px;
+      flex-wrap: nowrap;              /* Prevent wrapping */
+    }
+
+    .logo {
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: row;           /* Arrange links horizontally */
+      gap: 20px;                     /* Even spacing between links */
+    }
+
+    .links a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 12px;
+      transition: background 0.3s ease;
+    }
+
+    .links a:hover {
+      background-color: #555;
+      border-radius: 4px;
+    }
+
+    /* Responsive tweak */
+    @media (max-width: 600px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .links {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+        width: 100%;
+      }
+
+      .links a {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div class="logo">Logo</div>
+    <div class="links">
+      <a href="">Home</a>
+      <a href="">About</a>
+      <a href="">Services</a>
+      <a href="">Contact</a>
+    </div>
+  </div>
+
+</body>
+</html>

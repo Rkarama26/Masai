@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+       height: 200vh;
+    }
+    img {
+
+        width: 100px;
+    }
+
+    button {
+        padding: 10px;
+        border: 0;
+        border-radius: 50px;
+        color: white;
+        height: 50px;
+        width: 170px;
+        font-family: sans-serif;
+        font-weight: bold;
+        font-size: large;
+    }
+
+
+    nav div:nth-of-type(1)>button {
+        color: rgb(2, 1, 1);
+        margin-left: 10px;
+        background-color: white;
+    }
+
+    nav div:nth-of-type(3)>button {
+        color: white;
+        margin-right: 10px;
+        background-color: red;
+
+    }
+    
+
+    nav {
+        display: flex;
+        width: 85%;
+        justify-content: space-between;
+        background-color: black;
+        height: 60px;
+        border-radius: 50px;
+        margin: auto;
+        box-sizing: border-box;
+        position: relative;
+        top: 20px;
+    }
+
+    nav>div {
+        display: flex;
+        align-items: center;
+    }
+    nav>div#sections {
+        display: flex;
+        justify-content: space-around;
+        gap: 60px;
+    }
+    nav div:nth-child(2)>a{
+      text-decoration: none;
+      color: white;
+      font-family: sans-serif;
+      font-weight: bold;
+      font-size: large;
+    }
+
+</style>
+
+<body>
+    <header>
+        <nav>
+            <div><img src="https://cdn.masaischool.com/masai-website/paytm_rect_06df45a24f.svg" alt="">
+                <button>Our Courses ></button>
+            </div>
+
+            <div id="sections">
+                <a href="">About</a>
+                <a href="">Placed</a>
+                <a href="">Hire From Us</a>
+                <a href="">Success Stories</a>
+            </div>
+
+            <div>
+                <button>Login/Sign Up</button>
+            </div>
+
+        </nav>
+    </header>
+</body>
+
+</html>
