@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Cards</title>
+  <style>
+
+* {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .card-container {
+      display: grid;
+      grid-template-columns: 1fr; 
+      gap: 20px;
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    /* Medium screens:  */
+    @media (min-width: 600px) {
+      .card-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* Large screens:  */
+    @media (min-width: 1025px) {
+      .card-container {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .card {
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .card-content {
+      padding: 15px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card h3 {
+      margin: 10px 0;
+      font-size: 1.2rem;
+      color: #333;
+    }
+
+    .card p {
+      flex: 1;
+      font-size: 0.95rem;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .card button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .card button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card-container">
+
+    <div class="card">
+      <img src="https://picsum.photos/400/200?random=1" alt="Card Image 1">
+      <div class="card-content">
+        <h3>Card Title 1</h3>
+        <p>This is a sample description for card number one. It explains what this card is about.</p>
+        <button>Learn More</button>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <img src="https://picsum.photos/400/200?random=2" alt="Card Image 2">
+      <div class="card-content">
+        <h3>Card Title 2</h3>
+        <p>This card shows how responsive layouts adjust as screen size changes smoothly.</p>
+        <button>Read More</button>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <img src="https://picsum.photos/400/200?random=3" alt="Card Image 3">
+      <div class="card-content">
+        <h3>Card Title 3</h3>
+        <p>Cards align properly and maintain spacing thanks to CSS Grid and mobile-first design.</p>
+        <button>Explore</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

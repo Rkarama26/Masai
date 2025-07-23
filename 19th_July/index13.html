@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Responsive Navbar</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+
+    }
+
+    #container {
+      width: 100%;
+      background-color: #333;
+      color: white;
+    }
+
+    #navbar {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      padding: 15px 0;
+    }
+
+    #navbar div {
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    #signup button {
+      padding: 5px 10px;
+      background-color: white;
+      color: black;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Medium screens: vertical */
+    @media (max-width: 1023px) and (min-width: 768px) {
+      #navbar {
+        flex-direction: column;
+        margin-top: 40px;
+        background-color: black;
+        color: wheat;
+        border-radius: 50px;
+      }
+
+      #signup {
+        display: none;
+      }
+    }
+
+    /* Small screens */
+    .hamburger {
+      display: none;
+      font-size: 30px;
+      cursor: pointer;
+      padding: 10px 20px;
+    }
+
+    @media (max-width: 767px) {
+      #navbar {
+        display: none;
+        flex-direction: column;
+        background-color: black;
+        color: wheat;
+        border-radius: 10px;
+        padding: 10px;
+      }
+
+      .hamburger {
+        display: block;
+        background-color: #222;
+        color: white;
+        padding: 10px 20px;
+      }
+
+      #signup {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav id="container">
+    <div class="hamburger" onclick="toggleNavbar()">☰ Menu</div>
+
+    <div id="navbar">
+      <div>Home</div>
+      <div>About Us</div>
+      <div>Careers</div>
+      <div>What We Do</div>
+      <div id="signup">
+        <button>Register</button>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    function toggleNavbar() {
+      const navbar = document.getElementById("navbar");
+      navbar.style.display = navbar.style.display === "flex" ? "none" : "flex";
+    }
+  </script>
+</body>
+</html>
