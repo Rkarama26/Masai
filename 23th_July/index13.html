@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+
+</style>
+
+<body>
+    <div id="level1">
+        <button id="btn1">level1</button>
+        <div id="level2">
+            <button id="btn2">level2</button>
+            <div id="level3">
+                <button id="btn3">level3</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    const btn1 = document.getElementById("btn1")
+    const btn2 = document.getElementById("btn2")
+    const btn3 = document.getElementById("btn3")
+    const leve1 = document.getElementById("level1")
+    const leve2 = document.getElementById("level2")
+    const leve3 = document.getElementById("level3")
+
+
+    level1.addEventListener('click', () => alert('div 1'));
+    level2.addEventListener('click', () => alert('div 2'));
+    level3.addEventListener('click', () => alert('div 3'));
+
+
+    btn1.addEventListener('click', (e) => {
+        alert("btn 1")
+        e.stopPropagation()
+
+    })
+    btn2.addEventListener('click', (e) => {
+        alert("btn 2")
+        e.stopPropagation()
+    })
+    btn3.addEventListener('click', (e) => {
+        alert("btn 3")
+        e.stopPropagation()
+
+    })
+
+    //  listeners in capturing phase
+    level1.addEventListener('click', () => console.log("Div: Level 1 (capturing)"), true);
+    level2.addEventListener('click', () => console.log("Div: Level 2 (capturing)"), true);
+    level3.addEventListener('click', () => console.log("Div: Level 3 (capturing)"), true);
+</script>
+</script>
+
+</html>

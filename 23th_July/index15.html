@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+   <style>
+        
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f4;
+}
+
+#container {
+  padding: 20px;
+  background-color: #ffffff;
+  max-width: 500px;
+  margin: 30px auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+#taskInput {
+  width: 70%;
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+/* Add Task button */
+#addTaskBtn {
+  padding: 10px 15px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#addTaskBtn:hover {
+  background-color: #0056b3;
+}
+#btns{
+    display: flex;
+    justify-content: center;
+}
+
+/* Filter buttons */
+div > button {
+  margin: 10px 5px;
+  padding: 8px 12px;
+  background-color: #17a2b8;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+div > button:hover {
+  background-color: #117a8b;
+}
+
+/* Task list */
+#taskList {
+  max-width: 500px;
+  margin: 20px auto;
+  list-style-type: none;
+  padding: 0;
+}
+
+#taskList li {
+  background-color: #ffffff;
+  margin: 8px 0;
+  padding: 12px;
+  border-radius: 6px;
+  border-left: 6px solid #007bff;
+  font-size: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+
+        
+   </style>
+<body>
+
+    <div id="container">
+        <input id="taskInput" type="text" placeholder="Enter Task">
+        <button id="addTaskBtn">Add Task</button>
+    </div>
+    <div id="btns">
+        <button id="showAllTasks">All tasks</button>
+        <button id="completedTasks">Completed</button>
+        <button id="incomleteTasks">Incomplete</button>
+    </div>
+
+    <ul id="taskList">
+        <li>Task0</li>
+    </ul>
+
+</body>
+<script>
+    const taskInput = document.getElementById('taskInput')
+    const addTaskBtn = document.getElementById("addTaskBtn")
+    const taskList = document.getElementById('taskList')
+    const showAllTasks = document.getElementById('showAllTasks');
+    const completedTasks = document.getElementById("completedTasks");
+    const incomleteTasks = document.getElementById("incomleteTasks")
+
+
+    const tasks = []
+    addTaskBtn.addEventListener('click', () => {
+        let taskText = taskInput.value;
+        if (taskText !== "") {
+            const task = { text: taskText, done: false };
+            tasks.push(task);
+            taskInput.value = ""
+            renderList(tasks)
+        }
+
+    })
+    // function will render all tasks
+    function renderList(tasks) {
+        taskList.innerHTML = ""
+
+        tasks.forEach((task, index) => {
+            const li = document.createElement("li");
+
+            //task text
+            const textSpan = document.createElement("span")
+            textSpan.textContent = task.text;
+
+            //checkbox
+            const checkbox = document.createElement("input")
+            checkbox.type = "checkbox";
+            checkbox.checked = task.done;
+
+            checkbox.addEventListener('change', () => {
+                task.done = checkbox.checked;
+                console.log(`Task ${index} checked = ${task.done}`);
+                renderList(tasks)
+            })
+            //delete button
+            const deleteBtn = document.createElement('button')
+            deleteBtn.textContent = "delete"
+            deleteBtn.onclick = () => {
+                tasks.splice(index, 1);
+                renderList(tasks);
+            }
+            li.appendChild(textSpan);
+            li.appendChild(checkbox);
+            li.appendChild(deleteBtn);
+            taskList.appendChild(li);
+
+        });
+    }
+    console.log(tasks)
+
+    // showAll tasks
+    showAllTasks.addEventListener('click', () => {
+        renderList(tasks)
+    })
+    // show completed tasks
+    completedTasks.addEventListener('click', () => {
+        const completeTasks = tasks.filter(task => task.done);
+        console.log(completeTasks)
+        renderList(completeTasks)
+    })
+    //show incomplete tasks
+    incomleteTasks.addEventListener('click', () => {
+        const incompleteTasks = tasks.filter(task => !task.done);
+        renderList(incompleteTasks)
+    })
+
+
+
+</script>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+
+</style>
+
+<body>
+    <div id="box">
+        <p id="paragraph">This is a new paragraph</p>
+    </div>
+    <button id="addPara"> Add Paragraph</button>
+    <button id="removePara"> Remove Paragraph</button>
+</body>
+
+<script>
+    const box = document.getElementById('box')
+    const removePara = document.getElementById('removePara')
+    const addPara = document.getElementById('addPara')
+    const newPara = document.createElement('p');
+
+    addPara.addEventListener('click', () => {
+        newPara.textContent = "This is a new paragraph";
+        box.appendChild(newPara);
+
+    })
+
+    removePara.addEventListener('click', () => {
+        box.removeChild(newPara)
+    })
+
+</script>
+
+</html>

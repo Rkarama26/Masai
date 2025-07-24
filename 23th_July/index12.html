@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+
+</style>
+
+<body>
+    <div id="container">
+        <ul id="list">
+            <li id="item1">Item 1</li>
+            <li id="item2">Item 2</li>
+            <li id="item3">Item 3</li>
+        </ul>
+    </div>
+
+ 
+</body>
+<script>
+    const child_item = document.getElementById("item2")
+    child_item.addEventListener('click', () => {
+        alert(child_item.parentElement.textContent)
+        console.log(child_item.nextElementSibling?.textContent)
+        console.log(child_item.previousElementSibling.textContent)
+    })
+
+    
+</script>
+
+</html>
