@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .complete {
+        text-decoration: line-through;
+    }
+
+    div#container {
+        background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
+        width: 500px;
+        height: 600px;
+        border-radius: 10px;
+        margin: auto;
+        position: relative;
+        display: flex;
+        justify-content: center;
+
+    }
+
+    div#box {
+        margin-top: 50px;
+    }
+
+    div#box>input#taskInput {
+
+        border-radius: 10px;
+    }
+
+    button {
+        border-radius: 10px;
+        margin-left: 10px;
+
+    }
+</style>
+
+<body>
+
+    <div id="container">
+        <div id="box">
+            <input type="text" id="taskInput" placeholder="Enter Task">
+            <button id="addTaskBtn">Add Task</button>
+            <ol id="taskList">
+                <li><span>task</span>
+                    <button>delete</button>
+                    <button>done</button>
+                </li>
+            </ol>
+        </div>
+    </div>
+</body>
+<script>
+    const taskInput = document.getElementById('taskInput');
+    const addTaskbtn = document.getElementById('addTaskBtn');
+    const taskList = document.getElementById('taskList');
+
+    const tasks = [];
+
+    addTaskbtn.addEventListener('click', () => {
+        taskText = taskInput.value;
+        // console.log(taskText)
+        if (taskText !== "") {
+            const task = { text: taskText, done: false };
+            tasks.push(task);
+            renderList()
+        }
+
+    });
+
+    function renderList() {
+        taskList.innerHTML = ""
+
+        tasks.forEach((task, index) => {
+            const li = document.createElement('li');
+
+
+            const textSpan = document.createElement("span")
+            textSpan.textContent = task.text;
+            textSpan.className = task.done ? "complete" : ""
+
+
+            const completeBtn = document.createElement('button')
+            completeBtn.textContent = task.done ? "Undo" : "Done"
+            completeBtn.onclick = () => {
+                task.done = !task.done
+                renderList();
+            }
+
+            const deleteBtn = document.createElement('button')
+            deleteBtn.textContent = "delete"
+            deleteBtn.onclick = () => {
+                tasks.splice(index, 1);
+                renderList();
+            }
+
+            li.appendChild(textSpan)
+            li.appendChild(deleteBtn);
+            li.appendChild(completeBtn);
+            taskList.appendChild(li)
+        });
+
+
+
+        console.log(tasks)
+    }
+</script>
+
+</html>

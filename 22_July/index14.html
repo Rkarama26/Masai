@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debugging Task</title>
+</head>
+<body>
+
+  <!-- Paragraph that will be updated -->
+  <p id="message">Original Message</p>
+
+  <!-- Button to change the paragraph text -->
+  <button id="textButton">Change Text</button>
+  <br><br>
+
+  <!-- Div with initial background color -->
+  <div id="box" style="width: 100px; height: 100px; background-color: lightgray;"></div>
+
+  <!-- Button to change the background color -->
+  <button id="colorButton">Change Background</button>
+
+  <script>
+    // Select the paragraph correctly by ID
+    const para = document.getElementById('message');
+
+    // Select the button by ID
+    const textButton = document.getElementById('textButton');
+
+    // Add event listener to update paragraph text
+    textButton.addEventListener('click', () => {
+      para.textContent = 'New Message';
+    });
+
+    // Select the div and the color button
+    const box = document.getElementById('box');
+    const colorButton = document.getElementById('colorButton');
+
+    // Add event listener to change background color
+    colorButton.addEventListener('click', () => {
+      box.style.backgroundColor = 'blue';
+    });
+  </script>
+
+</body>
+</html>

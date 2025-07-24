@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    .colored {
+        width: 100px;
+        height: 100px;
+        background-color: blue;
+        margin: 50px;
+    }
+</style>
+
+<body>
+    <div id="box" class="colored">
+        Blue
+    </div>
+
+    <div id="parentDiv" class="colored">
+        parentDiv
+        <div id="childDiv" class="colored">childDiv</div>
+    </div>
+
+    <div>
+        <input type="text" placeholder="text">
+    </div>
+
+</body>
+
+<script>
+    // const box = document.getElementById("box")
+    // box.addEventListener('mouseover', () => {
+    //     box.textContent = "Yellow"
+    //     box.style.backgroundColor = "yellow"
+    // })
+    // box.addEventListener('mouseout', () => {
+    //     box.textContent = "Blue"
+    //     box.style.backgroundColor = "blue"
+    // })
+
+    document.getElementById("childDiv").onclick = function (event) {
+        alert("child");
+        event.stopPropagation();
+    };
+    document.getElementById("parentDiv").onclick = function () {
+        alert("parent");
+
+    };
+
+
+</script>
+
+</html>
