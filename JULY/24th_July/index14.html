@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Preferences</title>
+</head>
+<body>
+
+  <h2>User Preferences</h2>
+
+  <form id="preferencesForm">
+    <label for="theme">Theme:</label>
+    <select id="theme">
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+    </select>
+
+    <br><br>
+
+    <label for="language">Language:</label>
+    <select id="language">
+      <option value="en">English</option>
+      <option value="es">Spanish</option>
+    </select>
+
+    <br><br>
+
+    <label for="notifications">Notifications:</label>
+    <input type="checkbox" id="notifications" />
+
+    <br><br>
+
+    <button type="submit">Save Preferences</button>
+  </form>
+
+  <script>
+    // Get form and form elements
+    const form = document.getElementById('preferencesForm');
+    const themeSelect = document.getElementById('theme');         // ❗ Fixed: renamed from 'theme' to 'themeSelect'
+    const languageSelect = document.getElementById('language');   // ❗ Fixed: renamed from 'language' to 'languageSelect'
+    const notificationsCheckbox = document.getElementById('notifications'); // ❗ renamed to avoid conflict
+
+    // On form submit, store preferences in localStorage
+    form.addEventListener('submit', (e) => {
+      e.preventDefault(); // prevent page reload
+      const preferences = {
+        theme: themeSelect.value,
+        language: languageSelect.value,
+        notifications: notificationsCheckbox.checked
+      };
+      localStorage.setItem('preferences', JSON.stringify(preferences));
+      alert('Preferences Saved!');
+    });
+
+    // On page load, apply preferences from localStorage
+    window.onload = () => {
+      const saved = localStorage.getItem('preferences');
+
+      if (saved) {
+        //  Fixed: Previously, destructured names were same as DOM variables, causing override
+        const { theme, language, notifications } = JSON.parse(saved);
+
+        // Apply values to form fields
+        themeSelect.value = theme;
+        languageSelect.value = language;
+        notificationsCheckbox.checked = notifications;
+      }
+    };
+  </script>
+
+</body>
+</html>

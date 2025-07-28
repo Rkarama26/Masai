@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    div#form {
+        display: flex;
+        flex-direction: column;
+        width: 30%;
+    }
+</style>
+
+<body>
+
+    <div id="form">
+        <input type="text" id="name" placeholder="Enter Your Name">
+        <input type="email" id="email" placeholder="Enter Your Email">
+        <input type="text" id="favColor" placeholder="Enter Your favourite Color">
+        <button onclick="addDetails()" style="background-color: rgb(153, 240, 240);"> Save Data</button>
+    </div>
+
+    <div id="detailsList">
+
+    </div>
+</body>
+<script>
+
+
+    const detailsList = document.getElementById("detailsList");
+
+
+    function addDetails() {
+        const userName = document.getElementById("name").value
+        const email = document.getElementById("email").value;
+        const favColor = document.getElementById("favColor").value;
+
+        let obj = {
+            name: userName,
+            email: email,
+            favColor: favColor
+        }
+
+        let details = JSON.parse(localStorage.getItem('details')) || [];
+        details.push(obj)
+
+        localStorage.setItem('details', JSON.stringify(details));
+        console.log(details);
+    }
+
+    function displayDetails() {
+        const detailsList = document.getElementById("detailsList");
+        detailsList.innerHTML = ""; // Clear existing list items
+
+        const details = JSON.parse(localStorage.getItem('details')) || [];
+
+        details.forEach((item, index) => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+            <strong>Name:</strong> ${item.name} <br>
+            <strong>Email:</strong> ${item.email} <br>
+            <strong>Favorite Color:</strong> 
+            <span style="background-color: ${item.favColor}; padding: 2px 10px; border-radius: 5px;">${item.favColor}</span>
+            <hr>
+        `;
+            detailsList.appendChild(li);
+        });
+    }
+
+displayDetails()
+
+</script>
+
+</html>

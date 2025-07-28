@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Notes App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #f0f0f0;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      padding: 10px;
+      font-size: 16px;
+      resize: none;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h2> Notes</h2>
+  <textarea id="noteArea" placeholder="Write your notes here..."></textarea><br>
+  <button id="saveBtn">Save Notes</button>
+  <button id="loadBtn">Load Notes</button>
+  <button id="clearBtn">Clear Notes</button>
+
+  <script>
+    const noteArea = document.getElementById("noteArea");
+    const saveBtn = document.getElementById("saveBtn");
+    const loadBtn = document.getElementById("loadBtn");
+    const clearBtn = document.getElementById("clearBtn");
+
+    // Auto-load notes on page load
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedNote = localStorage.getItem("userNotes");
+      if (savedNote) {
+        noteArea.value = savedNote;
+      }
+    });
+
+    // Save notes
+    saveBtn.addEventListener("click", () => {
+      const note = noteArea.value.trim();
+      if (note === "") {
+        alert("Cannot save empty notes!");
+        return;
+      }
+      localStorage.setItem("userNotes", note);
+      alert("Notes saved successfully!");
+    });
+
+    // Load notes
+    loadBtn.addEventListener("click", () => {
+      const savedNote = localStorage.getItem("userNotes");
+      if (savedNote) {
+        noteArea.value = savedNote;
+      } else {
+        alert("No saved notes found.");
+      }
+    });
+
+    // Clear notes
+    clearBtn.addEventListener("click", () => {
+      localStorage.removeItem("userNotes");
+      noteArea.value = "";
+      alert("Notes cleared!");
+    });
+  </script>
+
+</body>
+</html>

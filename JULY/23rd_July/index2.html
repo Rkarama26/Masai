@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    div#container {
+        width: 300px;
+        height: 100px;
+        background-color: blue;
+        display: flex;
+        border: 2px solid red;
+    }
+
+    div#grid-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-auto-rows: 100px;
+    }
+
+    .grid-item {
+        /* border: 2px solid; */
+    }
+</style>
+
+<body>
+
+    <!-- <div id="div1">
+        DIV1
+        <div id="div2">
+            DIV2
+            <div id="div3">
+                DIV3
+            </div>
+        </div>
+    </div> -->
+
+
+    <!-- <div id="container">
+        <button>Click me</button>
+    </div> -->
+
+    <!-- event delegation 1 -->
+    <!-- <div id="grid-container">
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+    </div> -->
+
+    <!-- event delegation 2  - adding task by delegation-->
+
+    <div id="task-container">
+        <input type="text" id="inputTask">
+        <button id="btn">Add Task</button>
+    </div>
+    <div>
+        <button onclick="handleHighPriority()">High Priority</button>
+        <button onclick="handleLowPriority()">Low Priority</button>
+        <span id="totalTask"></span>
+    </div>
+    <ul id="taskList">
+        <li>task1</li>
+
+    </ul>
+</body>
+<script>
+
+    /*    document.getElementById('div1').addEventListener('click', () => {console.log("div1")})
+        document.getElementById('div2').addEventListener('click', () => {console.log("div2")})
+        document.getElementById('div3').addEventListener('click', () => {console.log("div3")})
+     
+        document.getElementById('container').addEventListener('click', () => {
+            console.log("clicked inside the div")
+        })
+    
+     */
+
+    /*
+     function random(number){
+       return Math.floor(Math.random() * number);
+     }
+
+     function bgchange(){
+       const randomColor = `rgb(${random(255)} ${random(255)} ${random(255)})`;
+       return randomColor;
+     }
+
+     const container = document.querySelector('#grid-container');
+     container.addEventListener("click", (event) => {
+       event.target.style.backgroundColor = bgchange();
+     })
+
+
+     */
+    const tasks = [];
+
+    const btn = document.querySelector('#btn');
+    const inputField = document.querySelector("#inputTask")
+
+
+    function addTask() {
+        const inputText = inputField.value.trim();
+
+        if (inputText !== "") {
+            const task = { text: inputText, done: false, highPriority: false };
+            tasks.push(task);
+            renderTaskList(tasks);
+            inputField.value = ""; // Clears the input field
+        }
+    }
+
+    btn.addEventListener('click', addTask);
+
+    inputField.addEventListener('keydown', (event) => {
+        if (event.key === "Enter") {
+            addTask();
+        }
+    })
+
+
+
+
+
+    const taskList = document.querySelector("#taskList");
+    const totalTask = document.getElementById("totalTask");
+
+    function renderTaskList(tasks) {
+        taskList.innerHTML = "";
+
+        const total = tasks.reduce((acc) => acc + 1, 0);
+        console.log("total Tasks: ", total)
+        totalTask.textContent = `Total Tasks ${total}`
+
+        tasks.forEach(task => {
+            const li = document.createElement('li');
+
+            const textSpan = document.createElement("span");
+            textSpan.textContent = task.text
+            li.appendChild(textSpan);
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            li.appendChild(checkbox)
+
+
+
+
+            taskList.appendChild(li);
+        })
+
+    }
+
+    //task delegation
+    taskList.addEventListener('click', (event) => {
+
+
+        //IF LI DIRECTLY CONTAINS THE TEXT
+        // if (event.target.tagName === "LI") {
+        //     console.log(event.target.tagName)
+        //     event.target.remove();
+        // }
+
+        // IF LI CONTAINS SOME NESTED ELEMENT THAN TEXT
+
+        if (event.target.tagName === "SPAN") {
+            const li = event.target.closest("li")
+            if (li && taskList.contains(li)) {
+
+                const index = Array.from(taskList.children).indexOf(li);
+                if(index !== -1) tasks.splice(index, 1);
+                li.remove();
+               renderTaskList(tasks)
+            }
+        }
+
+    })
+
+
+    function handleHighPriority() {
+        const highPriority = tasks.filter(task => task.highPriority);
+        renderTaskList(highPriority)
+    }
+    function handleLowPriority() {
+        const lowPriority = tasks.filter(task => !task.highPriority);
+        renderTaskList(lowPriority)
+    }
+
+
+</script>
+
+</html>

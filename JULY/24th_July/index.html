@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    div#container {
+        width: 30%;
+        margin: 0 auto;
+        padding: 10px;
+        border: 2px solid;
+        display: flex;
+        flex-direction: column;
+        border-radius: 5px;
+    }
+    div#input {
+        margin: 10px 0;
+    }
+
+    div#container>ul {
+        list-style: none;
+        padding: 0;
+        border: 2px solid;
+        border-radius: 5px;
+    }
+
+    div#container>ul>li {
+        margin: 5px;
+        padding: 5px;
+        display: flex;
+        justify-content: space-between;
+        border: 2px solid;
+        border-radius: 5px;
+    }
+
+    div#container>ul>li>span {
+        flex-grow: 1;
+    }
+
+    div#container>ul>li>input[type="checkbox"] {
+        margin-left: 10px;
+
+    }
+
+    input#todoInput {
+        border: 2px solid;
+        width: 90%;
+        padding: 20px;
+        border-radius: 5px;
+    }
+
+    button {
+        padding: 10px 20px;
+        margin: 5px;
+        border: 2px solid;
+        border-radius: 5px;
+    }
+
+    button:hover {
+        background-color: #e95f5f;
+    }
+</style>
+
+<body>
+    <div id="container">
+
+        <div id="input">
+            <input type="text" id="todoInput" placeholder="Enter Your Task">
+        </div>
+
+        <div id="btns">
+            <button onclick="addTask()">Add Task</button>
+            <button onclick="clearAll()">Clear All</button>
+        </div>
+
+        <ul id="todoList">
+            <li>task0</li>
+        </ul>
+    </div>
+
+</body>
+
+<script>
+    // LOCAL STORAGE 
+
+    // 1. setItem() - only string argument
+    // 2. getItem()
+    // 3. removeItem()
+    // 4. clear
+    /*
+        localStorage.setItem("name", "rohit")
+       localStorage.setItem("pass", "rohit123")
+       console.log(localStorage.getItem("name"))
+       localStorage.removeItem("name");
+       console.log(localStorage.getItem("name")) // return null
+        let obj = { name: "rohit", pass: "password" }
+    localStorage.setItem("user", JSON.stringify(obj))
+    console.log(JSON.parse(localStorage.getItem("user")))
+*/
+   // MORE FUNCTIONS NEED TO BE ADDED 
+    function addTask() {
+        let taskInput = document.querySelector("#todoInput").value.trim();
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        if (taskInput !== "") {
+            tasks.push(taskInput);
+        }
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        console.log(tasks)
+        renderList()
+    }
+
+    function renderList() {
+        let tasks = JSON.parse(localStorage.getItem('tasks'));
+        let todoList = document.querySelector('#todoList');
+        todoList.innerHTML = ""
+        tasks.forEach((task) => {
+
+            let li = document.createElement("li");
+            let span = document.createElement("span");
+            span.textContent = task
+
+            let checkbox = document.createElement("input")
+            checkbox.type = "checkbox";
+
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    span.style.textDecoration = "line-through"
+                }
+                else {
+                    span.style.textDecoration = "none"
+                }
+            })
+
+            li.appendChild(span);
+            li.appendChild(checkbox);
+            todoList.appendChild(li);
+        })
+        document.getElementById("todoInput").value = ""
+    }
+
+    function clearAll() {
+        localStorage.removeItem('tasks');
+        renderList()
+    }
+
+    renderList();
+
+</script>
+
+</html>

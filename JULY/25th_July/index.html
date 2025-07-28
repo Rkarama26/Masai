@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    #productContainer {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
+
+    img {
+        max-width: 100%;
+    }
+
+    #productContainer>div {
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+    }
+</style>
+
+<body onload="fetchProduct()">
+
+    <!-- <button id="btn" onclick="fetchProduct()">Fetch Product</button> -->
+    <div id="productContainer">
+
+
+    </div>
+</body>
+
+<script>
+
+    async function fetchProduct() {
+        // let btn = document.getElementById('btn');
+        try {
+            // btn.disabled = true
+
+            let response = await fetch('https://fakestoreapi.com/products')
+            let products = await response.json();
+            console.log(products)
+
+            let container = document.getElementById("productContainer")
+
+            products.forEach((product, index) => {
+                console.log(product)
+                let productBox = document.createElement('div');
+
+
+                productBox.innerHTML = ` 
+                <img  src="${product.image}" alt="">
+                <h3>${product.title}</h3>
+                 <p>$${product.price}</p>`
+
+                container.appendChild(productBox)
+
+            })
+        } catch (error) {
+            alert("Error fetching products:", error);
+        } finally {
+            // btn.disabled = false
+        }
+
+    }
+
+</script>
+
+</html>

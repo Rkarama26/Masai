@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+</head>
+<style>
+   
+
+    input[type="text"] {
+        padding: 10px;
+        margin: 5px 0;
+        width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+
+    button {
+        padding: 8px 12px;
+        margin-left: 5px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 20px;
+    }
+
+    li {
+        background-color: white;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    li span {
+        flex-grow: 1;
+    }
+
+    li input[type="checkbox"] {
+        transform: scale(1.2);
+        margin-left: 10px;
+    }
+
+    li button {
+        background-color: #dc3545;
+    }
+
+    li button:hover {
+        background-color: #a71d2a;
+    }
+</style>
+
+</style>
+
+<body>
+
+    <input type="text" id="taskInput" placeholder="Enter task">
+    <button onclick="addTask()">Add Task</button>
+
+    <br><br>
+
+    <input type="text" id="searchInput" placeholder="Search tasks" oninput="renderTasks()">
+
+    <ul id="taskList">
+
+    </ul>
+
+</body>
+<script>
+
+
+    // Helper to get tasks from localStorage
+    function getTasks() {
+        return JSON.parse(localStorage.getItem('tasks')) || [];
+    }
+
+    // Helper to save tasks to localStorage
+    function saveTasks(tasks) {
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    // Add a new task
+    function addTask() {
+        const input = document.getElementById('taskInput');
+        const text = input.value.trim();
+        if (!text) return;
+
+        const tasks = getTasks();
+
+        const newTask = {
+            id: Date.now(),
+            text: text,
+            completed: false
+        };
+
+        tasks.push(newTask);
+        saveTasks(tasks);
+
+        input.value = '';
+        renderTasks();
+    }
+
+    // Render tasks - filtered by search input
+    function renderTasks() {
+        const taskList = document.getElementById('taskList');
+        const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+        const tasks = getTasks();
+
+        taskList.innerHTML = '';
+
+        tasks
+            .filter(task => task.text.toLowerCase().includes(searchQuery))
+            .forEach(task => {
+                const li = document.createElement('li');
+                li.style.marginBottom = "10px";
+
+                // Apply visual style for completed
+                li.style.textDecoration = task.completed ? "line-through" : "none";
+                li.style.color = task.completed ? "gray" : "black";
+
+                // Task text
+                const span = document.createElement('span');
+                span.innerText = task.text;
+                span.style.marginRight = "10px";
+                li.appendChild(span);
+
+                // Checkbox for completion
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = task.completed;
+                checkbox.addEventListener('change', () => {
+                    task.completed = checkbox.checked;
+                    saveTasks(tasks);
+                    renderTasks();
+                });
+                li.appendChild(checkbox);
+
+                // Delete button
+                const delBtn = document.createElement('button');
+                delBtn.innerText = 'Delete';
+                delBtn.style.marginLeft = '10px';
+                delBtn.onclick = () => {
+                    const updatedTasks = tasks.filter(t => t.id !== task.id);
+                    saveTasks(updatedTasks);
+                    renderTasks();
+                };
+                li.appendChild(delBtn);
+
+                taskList.appendChild(li);
+            });
+    }
+
+    // Load tasks on page load
+    window.onload = renderTasks;
+
+
+</script>
+
+</html>

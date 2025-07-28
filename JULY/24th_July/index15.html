@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Multi-User Shopping Cart</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+
+    input {
+      padding: 5px;
+      margin: 5px;
+    }
+
+    button {
+      padding: 6px 10px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loginSection">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Enter username">
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div id="cartSection" style="display: none;">
+    <h2>Welcome, <span id="currentUser"></span></h2>
+    <button onclick="logout()">Logout</button>
+
+    <h3>Add Item</h3>
+    <input type="text" id="itemName" placeholder="Item name">
+    <input type="number" id="itemPrice" placeholder="Price">
+    <input type="number" id="itemQty" placeholder="Quantity">
+    <button onclick="addItem()">Add to Cart</button>
+
+    <h3>Your Cart</h3>
+    <table id="cartTable">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Price</th>
+          <th>Qty</th>
+          <th>Total</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <h3>Total Cost: ₹<span id="totalCost">0</span></h3>
+  </div>
+
+  <script>
+    let currentUser = null;
+
+    function login() {
+      const username = document.getElementById("username").value.trim();
+      if (!username) {
+        return alert("Please enter a username.");
+      }
+
+      currentUser = username;
+      document.getElementById("currentUser").innerText = currentUser;
+      document.getElementById("loginSection").style.display = "none";
+      document.getElementById("cartSection").style.display = "block";
+      renderCart();
+    }
+
+    function logout() {
+      currentUser = null;
+      document.getElementById("username").value = "";
+      document.getElementById("loginSection").style.display = "block";
+      document.getElementById("cartSection").style.display = "none";
+    }
+
+    function getAllCarts() {
+      return JSON.parse(localStorage.getItem("multiUserCart")) || {};
+    }
+
+    function getCart() {
+      const allCarts = getAllCarts();
+      return allCarts[currentUser] || [];
+    }
+
+    function saveCart(cart) {
+      const allCarts = getAllCarts();
+      allCarts[currentUser] = cart;
+      localStorage.setItem("multiUserCart", JSON.stringify(allCarts));
+    }
+
+    function addItem() {
+      const itemName = document.getElementById("itemName").value.trim();
+      const price = parseFloat(document.getElementById("itemPrice").value);
+      const quantity = parseInt(document.getElementById("itemQty").value);
+
+      if (!itemName || isNaN(price) || isNaN(quantity) || price < 0 || quantity < 1) {
+        return alert("Enter valid item details.");
+      }
+
+      let cart = getCart();
+      let existingItem = cart.find(item => item.itemName === itemName);
+
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        cart.push({ itemName, price, quantity });
+      }
+
+      saveCart(cart);
+      renderCart();
+
+      document.getElementById("itemName").value = "";
+      document.getElementById("itemPrice").value = "";
+      document.getElementById("itemQty").value = "";
+    }
+
+    function renderCart() {
+      const cart = getCart();
+      const tbody = document.querySelector("#cartTable tbody");
+      tbody.innerHTML = "";
+
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${item.itemName}</td>
+          <td>₹${item.price}</td>
+          <td><input type="number" min="1" value="${item.quantity}" onchange="updateQuantity(${index}, this.value)"></td>
+          <td>₹${itemTotal.toFixed(2)}</td>
+          <td><button onclick="removeItem(${index})">Delete</button></td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      document.getElementById("totalCost").innerText = total.toFixed(2);
+    }
+
+    function updateQuantity(index, newQty) {
+      const qty = parseInt(newQty);
+      if (isNaN(qty) || qty < 1) return;
+
+      let cart = getCart();
+      cart[index].quantity = qty;
+      saveCart(cart);
+      renderCart();
+    }
+
+    function removeItem(index) {
+      let cart = getCart();
+      cart.splice(index, 1);
+      saveCart(cart);
+      renderCart();
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q: 11</title>
+</head>
+
+<body>
+
+    <div id="container">
+
+        <ul id="taskList"></ul>
+    </div>
+
+</body>
+
+<script>
+
+    // fetches the users from endpoint 
+    async function fetchData() {
+        let taskList = document.getElementById('taskList');
+        try {
+            let response = await fetch('https://jsonplaceholder.typicode.com/users');
+            let users = await response.json();
+            console.log(users)
+            //itrating over each user
+            users.forEach((user, index) => {
+
+                let li = document.createElement('li');
+                li.textContent = user.name;
+
+                //adding data Attributes to store user info
+                li.dataset.email = user.email;
+
+                taskList.appendChild(li);
+
+
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+    // eventListener to show alert for email
+    document.getElementById('taskList').addEventListener('click', function (event) {
+        const clickedLi = event.target.closest("li");
+
+        if (clickedLi && this.contains(clickedLi)) {
+            const email = clickedLi.dataset.email;
+            alert(`Email: ${email}`);
+        }
+    })
+    fetchData();
+
+</script>
+
+</html>

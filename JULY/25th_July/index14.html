@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        div#weather {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        div#weather p {
+            margin: 5px 0;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 200px;
+            margin: 20px auto;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="weatherForm">
+        <input type="text" id="city" placeholder="Enter city name" required>
+        <button type="submit">Get Weather</button>
+    </form>
+
+    <div id="weather"></div>
+
+    <script>
+        const weatherForm = document.getElementById('weatherForm');
+        const cityInput = document.getElementById('city');
+        const weatherDisplay = document.getElementById('weather');
+
+        const apiKey = 'de3102cdb9c68f507f65593d445cc4c3';
+
+        weatherForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const city = cityInput.value.trim();
+            if (city === "") {
+                alert("City input is required."); // empty field check
+                return;
+            }
+            fetchWeather(city, apiKey);//missing argument
+        });
+
+        async function fetchWeather(city, apiKey) {
+            try {
+                const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (response.ok) {
+                    const tempCelsius = (data.main.temp - 273.15).toFixed(2); // Convert Kelvin to Celsius
+                    weatherDisplay.innerHTML = `<p>Temperature in <strong>${data.name}</strong>: ${tempCelsius}°C</p>`;
+                } else {
+                    weatherDisplay.innerHTML = `<p style="color:red;">Error: ${data.message}</p>`;
+                }
+            } catch (error) {
+                console.error(error); // display error
+                weatherDisplay.innerHTML = `<p style="color:red;">Failed to fetch weather. Please try again later.</p>`;
+            }
+        }
+    </script>
+</body>
+
+</html>

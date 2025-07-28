@@ -30,6 +30,8 @@
         <input type="text" placeholder="text">
     </div>
 
+    <button onclick="handleClick()" id="btn">submit button </button>
+
 </body>
 
 <script>
@@ -43,6 +45,9 @@
     //     box.style.backgroundColor = "blue"
     // })
 
+    function handleClick(){
+        console.log("btn clicked")
+    }
     document.getElementById("childDiv").onclick = function (event) {
         alert("child");
         event.stopPropagation();
