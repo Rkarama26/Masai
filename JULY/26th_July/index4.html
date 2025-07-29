@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Dashboard with Tasks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    form {
+      margin-bottom: 30px;
+    }
+
+    input, select, button {
+      padding: 8px;
+      margin: 5px;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .user-card {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .actions button {
+      margin-right: 10px;
+    }
+
+    .edit-form {
+      margin-top: 10px;
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      input, button, select {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>User Dashboard</h2>
+
+  <!--  Form -->
+  <form id="userForm">
+    <input type="text" id="name" placeholder="Name" required />
+    <input type="email" id="email" placeholder="Email" required />
+    <button type="submit">Add User</button>
+    <div id="message"></div>
+  </form>
+
+  <!--  List -->
+  <div id="userList"></div>
+
+  <script>
+    const api = 'https://6887c05a071f195ca981ddf3.mockapi.io/students';
+
+    const userForm = document.getElementById('userForm');
+    const userList = document.getElementById('userList');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const message = document.getElementById('message');
+
+    // Fetch and display users
+    async function loadUsers() {
+      try {
+        const res = await fetch(api);
+        const data = await res.json();
+        console.log("Fetched Users:", data);
+        userList.innerHTML = '';
+        data.forEach(user => displayUser(user));
+      } catch (error) {
+        console.error("Error loading users:", error);
+        userList.innerHTML = 'Failed to load users.';
+      }
+    }
+
+    // Display a single user with  options
+    function displayUser(user) {
+      const card = document.createElement('div');
+      card.className = 'user-card';
+
+      card.innerHTML = `
+        <strong>${user.name}</strong> - ${user.email}<br/>
+        <small>Status: ${user.course}</small>
+        <div class="actions">
+          <button onclick="showEditForm('${user.id}', '${user.name}', '${user.email}', '${user.course}')">Edit</button>
+          <button onclick="deleteUser('${user.id}')">Delete</button>
+        </div>
+        <div class="edit-form" id="edit-${user.id}">
+          <input type="text" id="edit-name-${user.id}" value="${user.name}">
+          <input type="email" id="edit-email-${user.id}" value="${user.email}">
+          <select id="edit-course-${user.id}">
+            <option value="Pending" ${user.course === 'Pending' ? 'selected' : ''}>Pending</option>
+            <option value="Completed" ${user.course === 'Completed' ? 'selected' : ''}>Completed</option>
+          </select>
+          <button onclick="updateUser('${user.id}')">Update</button>
+        </div>
+      `;
+      userList.appendChild(card);
+    }
+
+    // Add user
+    userForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+
+      if (!name || !email) {
+        message.textContent = 'All fields are required.';
+        return;
+      }
+
+      try {
+        const res = await fetch(api, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, course: 'Pending' })
+        });
+        if (!res.ok) throw new Error('API Error');
+
+        const newUser = await res.json();
+        console.log("User Added:", newUser);
+        displayUser(newUser);
+        userForm.reset();
+        message.textContent = 'User added successfully!';
+      } catch (err) {
+        console.error("Add User Error:", err);
+        message.textContent = 'Failed to add user.';
+      }
+    });
+
+    // Show  edit form
+    function showEditForm(id, name, email, course) {
+      const form = document.getElementById(`edit-${id}`);
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+
+    //  user
+    async function updateUser(id) {
+      const name = document.getElementById(`edit-name-${id}`).value.trim();
+      const email = document.getElementById(`edit-email-${id}`).value.trim();
+      const course = document.getElementById(`edit-course-${id}`).value;
+
+      try {
+        const res = await fetch(`${api}/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, course })
+        });
+        const updatedUser = await res.json();
+        console.log("User Updated:", updatedUser);
+        loadUsers();
+      } catch (err) {
+        console.error("Update Error:", err);
+        alert('Failed to update user.');
+      }
+    }
+
+    // Delete 
+    async function deleteUser(id) {
+      if (!confirm("Are you sure you want to delete this user?")) return;
+
+      try {
+        const res = await fetch(`${api}/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Delete failed');
+        console.log("User Deleted:", id);
+        loadUsers();
+      } catch (err) {
+        console.error("Delete Error:", err);
+        alert('Failed to delete user.');
+      }
+    }
+
+    loadUsers();
+  </script>
+
+</body>
+</html>

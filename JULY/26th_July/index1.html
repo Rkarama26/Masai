@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Filter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 1rem;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-container select,
+        .filter-container input,
+        .filter-container button {
+            padding: 0.5rem;
+            font-size: 1rem;
+        }
+
+        #products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        .product {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .product img {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 0.5rem;
+        }
+
+        .loading,
+        .error {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 600px) {
+            .filter-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Product Filter by Country & Price</h1>
+
+    <div class="filter-container">
+        <select id="country">
+            <option value="">All Countries</option>
+            <option value="Bolivia">Bolivia</option>
+            <option value="India">India</option>
+            <option value="USA">USA</option>
+            <option value="Germany">Germany</option>
+            <option value="Brazil">Brazil</option>
+            <option value="France">France</option>
+            <option value="Canada">Canada</option>
+            <option value="Australia">Australia</option>
+            <option value="Japan">Japan</option>
+            <option value="South Africa">South Africa</option>
+        </select>
+        <input type="number" id="minPrice" placeholder="Min Price" />
+        <input type="number" id="maxPrice" placeholder="Max Price" />
+        <button onclick="fetchProducts()">Search</button>
+    </div>
+
+    <div id="status" class="loading"></div>
+    <div id="products"></div>
+
+    <script>
+        async function fetchProducts() {
+            const country = document.getElementById("country").value;
+            const minPrice = Number(document.getElementById("minPrice").value);
+            const maxPrice = Number(document.getElementById("maxPrice").value);
+            const statusDiv = document.getElementById("status");
+            const productsDiv = document.getElementById("products");
+
+            // Clear previous results
+            statusDiv.textContent = "Loading...";
+            statusDiv.className = "loading";
+            productsDiv.innerHTML = "";
+
+            const url = "https://6887c05a071f195ca981ddf3.mockapi.io/products";
+
+            try {
+                const res = await fetch(url);
+                if (!res.ok) throw new Error("Failed to fetch products");
+                let data = await res.json();
+
+                // Filter by country (category) if selected
+                if (country) {
+                    data = data.filter(p => p.category.toLowerCase() === country.toLowerCase());
+                }
+
+                // Filter by price range
+                data = data.filter(p =>
+                    (!minPrice || p.price >= minPrice) &&
+                    (!maxPrice || p.price <= maxPrice)
+                );
+
+                if (data.length === 0) {
+                    statusDiv.textContent = "No products found.";
+                    return;
+                }
+
+                statusDiv.textContent = "";
+
+                data.forEach(product => {
+                    const card = document.createElement("div");
+                    card.className = "product";
+                    card.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p>₹${product.price}</p>
+            <small>${product.category}</small>
+          `;
+                    productsDiv.appendChild(card);
+                });
+            } catch (err) {
+                statusDiv.textContent = "Error: " + err.message;
+                statusDiv.className = "error";
+            }
+        }
+    </script>
+</body>
+
+</html>

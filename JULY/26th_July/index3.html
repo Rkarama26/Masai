@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f8f9fa;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .form-section,
+    .users-section {
+      background: #fff;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    input {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 0.8rem 1.5rem;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .message {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 5px;
+      display: none;
+      font-size: 0.95rem;
+    }
+
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .error {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .user-list {
+      margin-top: 1rem;
+    }
+
+    .user-item {
+      padding: 0.7rem;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .user-item:last-child {
+      border-bottom: none;
+    }
+
+    .user-item span {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>User Dashboard</h2>
+
+    <!--  User Form -->
+    <div class="form-section">
+      <h3>Add New User</h3>
+      <form id="userForm">
+        <input type="text" id="name" placeholder="Name" required />
+        <input type="email" id="email" placeholder="Email" required />
+        <button type="submit">Add User</button>
+      </form>
+      <div id="formMessage" class="message"></div>
+    </div>
+
+    <!-- User List -->
+    <div class="users-section">
+      <h3>Registered Users</h3>
+      <div id="userList" class="user-list">Loading...</div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = 'https://6887c05a071f195ca981ddf3.mockapi.io/students';
+
+    const form = document.getElementById("userForm");
+    const userList = document.getElementById("userList");
+    const formMessage = document.getElementById("formMessage");
+
+    // Load users 
+    document.addEventListener("DOMContentLoaded", fetchUsers);
+
+    //  form submit
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+
+      if (!name || !email) {
+        showMessage("Please fill all fields.", "error");
+        return;
+      }
+
+      try {
+        const existingUsers = await fetch(API_URL).then(res => res.json());
+
+        const duplicate = existingUsers.find(user => user.email.toLowerCase() === email.toLowerCase());
+        if (duplicate) {
+          showMessage("User with this email already exists.", "error");
+          return;
+        }
+
+        const newUser = {
+          name,
+          email,
+          course: "course 1",
+          age: Math.floor(Math.random() * 40) + 18,
+          password: Math.random().toString(36).slice(-8)
+        };
+
+        console.log("Sending user:", newUser);
+
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(newUser)
+        });
+
+        if (!response.ok) throw new Error("Failed to add user");
+
+        const addedUser = await response.json();
+        showMessage("User registered successfully!", "success");
+        form.reset();
+
+    // Append user to the list
+        appendUserToList(addedUser);
+      } catch (error) {
+        console.error("Error:", error);
+        showMessage("Something went wrong. Try again later.", "error");
+      }
+    });
+
+    //   display users
+    async function fetchUsers() {
+      try {
+        const res = await fetch(API_URL);
+        const users = await res.json();
+        userList.innerHTML = "";
+
+        users.forEach(user => {
+          appendUserToList(user);
+        });
+
+        if (users.length === 0) {
+          userList.innerHTML = "<p>No users found.</p>";
+        }
+      } catch (err) {
+        userList.innerHTML = "<p>Failed to load users.</p>";
+        console.error("Fetch error:", err);
+      }
+    }
+
+    // Append user
+    function appendUserToList(user) {
+      const div = document.createElement("div");
+      div.className = "user-item";
+      div.innerHTML = `<span>${user.name}</span> - ${user.email}`;
+      userList.appendChild(div);
+    }
+
+    //  message
+    function showMessage(msg, type) {
+      formMessage.textContent = msg;
+      formMessage.className = `message ${type}`;
+      formMessage.style.display = "block";
+      setTimeout(() => {
+        formMessage.style.display = "none";
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
