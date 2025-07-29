@@ -7,24 +7,100 @@
     <title>Document</title>
 </head>
 
-<body>
-    <div id="input-container">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background-color: #f4f4f4;
+    }
 
+    h2,
+    h3,
+    h4 {
+        margin-bottom: 10px;
+    }
+
+    input,
+    select,
+    button {
+        padding: 8px;
+        margin: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button {
+        background-color: #007BFF;
+        color: white;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    #list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .student {
+        background-color: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .student p {
+        margin: 5px 0;
+    }
+
+    .student button {
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    #form-container {
+        margin-bottom: 20px;
+    }
+
+    #filter-section {
+        margin-top: 15px;
+    }
+</style>
+
+<body>
+    <h2>Student Information</h2>
+
+    <div id="form-container">
         <input type="text" id="name" placeholder="Name" required>
         <input type="number" id="age" placeholder="Age" required>
         <input type="text" id="grade" placeholder="Grade" required>
-        <input type="checkbox" id="enrolled" placeholder="Enrolled">
-        <button id="addEntry">addEntry</button>
+        <input type="checkbox" id="enrolled"> Enrolled
+        <input type="hidden" id="studentId">
+        <button onclick="addStudent()">addEntry</button>
     </div>
 
+    <div id="filter-section">
+        <h4>Filter by</h4>
+        <button onclick="enrolledStudents()">Enrolled Students</button>
+        <label for="selected_grade">Choose a grade:</label>
+        <select id="selected_grade" onchange="filterBySelectedGrade()">
+            <option value="">-- Select Grade --</option>
+            <option value="A">Grade A</option>
+            <option value="B">Grade B</option>
+            <option value="C">Grade C</option>
+        </select>
+        <button onclick="sortStudentsByAge()">Sort by Age</button>
+    </div>
 
-
-
+    <h3>Student List</h3>
+    <div id="list"></div>
+    </div>
 </body>
-<!-- 1. Firebase Core SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<!-- 2. Firebase Firestore SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script type="module" src="script.js"></script>
+
+<script src="script.js"></script>
 
 </html>
