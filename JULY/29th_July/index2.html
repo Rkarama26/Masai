@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feedback App</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 30px;
+        }
+
+        input,
+        button {
+            padding: 8px;
+            margin: 5px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .actions button {
+            margin-right: 5px;
+        }
+
+        #editSection {
+            margin-top: 30px;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+
+            input,
+            button {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h2>User Dashboard</h2>
+
+    <form id="userForm">
+        <input type="text" id="name" placeholder="Name" required />
+        <input type="text" id="messageInput" placeholder="Message" required />
+        <button onclick="submitFeedback(event)" type="submit">Add User</button>
+        <h4 id="displayMessage"></h4>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Feedback</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody id="feedbackTableBody">
+            <!-- Feedback data will be inserted here -->
+        </tbody>
+    </table>
+
+    <div id="editSection">
+        <h3>Edit Feedback</h3>
+        <input type="text" id="editName" placeholder="Name" />
+        <input type="text" id="editMessageInput" placeholder="Message" />
+        <button onclick="updateFeedback()">Update</button>
+    </div>
+
+    <script>
+        const apiUrl = "https://users-34960-default-rtdb.asia-southeast1.firebasedatabase.app/users";
+        let editingKey = null;
+
+        //QUESTION 12
+        async function submitFeedback(event) {
+            event.preventDefault();
+            const nameInput = document.getElementById("name");
+            const messageInput = document.getElementById("messageInput");
+            const displayMessage = document.getElementById("displayMessage");
+
+            const userName = nameInput.value.trim();
+            const userMessage = messageInput.value.trim();
+
+            if (!userName || !userMessage) {
+                displayMessage.textContent = 'Please fill in both Name and Message fields.';
+                displayMessage.style.color = 'orange';
+                return;
+            }
+
+            const feedback = {
+                userName,
+                message: userMessage
+            };
+
+            try {
+                const res = await fetch(`${apiUrl}.json`, {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(feedback)
+                });
+
+                if (!res.ok) throw new Error('API Error');
+                displayMessage.textContent = ' Feedback added successfully!';
+                displayMessage.style.color = 'green';
+
+                nameInput.value = '';
+                messageInput.value = '';
+
+                loadFeedback();
+            } catch (err) {
+                console.error("Add User Error:", err);
+                displayMessage.textContent = ' Failed to add Feedback.';
+                displayMessage.style.color = 'red';
+            }
+        }
+
+        async function loadFeedback() {
+            const tbody = document.getElementById("feedbackTableBody");
+            tbody.innerHTML = "";
+
+            const res = await fetch(`${apiUrl}.json`);
+            const data = await res.json();
+
+            for (let key in data) {
+                const entry = data[key];
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${entry.userName}</td>
+                    <td>${entry.message}</td>
+                    <td><button onclick="editFeedback('${key}', '${entry.userName}', '${entry.message}')">Edit</button></td>
+                    <button onclick="deleteUser('${key}')">Delete</button>
+
+                `;
+
+                tbody.appendChild(row);
+            }
+        }
+        //QUESTION 13
+        function editFeedback(key, name, message) {
+            editingKey = key;
+            document.getElementById("editName").value = name;
+            document.getElementById("editMessageInput").value = message;
+            document.getElementById("editSection").style.display = "block";
+        }
+        //update
+        async function updateFeedback() {
+            const newName = document.getElementById("editName").value.trim();
+            const newMessage = document.getElementById("editMessageInput").value.trim();
+
+            if (!newName || !newMessage) {
+                alert("Both fields are required.");
+                return;
+            }
+
+            const updatedData = {
+                userName: newName,
+                message: newMessage
+            };
+
+            try {
+                const res = await fetch(`${apiUrl}/${editingKey}.json`, {
+                    method: "PATCH",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedData)
+                });
+
+                if (!res.ok) throw new Error("Failed to update");
+
+                document.getElementById("editSection").style.display = "none";
+                editingKey = null;
+                loadFeedback();
+            } catch (err) {
+                console.error("Update Error:", err);
+            }
+        }
+
+        // QUESTION 14
+        const deleteUser = (key) => {
+            fetch(`https://users-34960-default-rtdb.asia-southeast1.firebasedatabase.app/users/${key}.json`, {
+                method: 'DELETE',
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error("Failed to delete");
+                    console.log("User deleted successfully");
+                    loadFeedback(); // Refresh the list
+                })
+                .catch(error => console.error("Error deleting user:", error));
+        };
+
+
+        loadFeedback();
+
+
+    </script>
+</body>
+
+</html>
