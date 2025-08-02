@@ -281,6 +281,15 @@
         // every 3 seconds  live 
         setInterval(fetchIdeas, 3000);
 
+
+        function displayPostswithPage() {
+            ideaFeed.innerHTML = '';
+            const totalPages = Math.ceil(currentData.length / itemsPerPage);
+
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+        }
+
     </script>
 
 </body>

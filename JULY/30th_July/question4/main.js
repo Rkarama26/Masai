@@ -2,7 +2,9 @@
 
 
 let fetchURL = "https://library-ba950-default-rtdb.asia-southeast1.firebasedatabase.app/";
-
+let allfilteredBooks = [];
+let currentPage = 1;
+let itemsPerPage = 4
 // fetch book 
 async function fetchBooks() {
 
@@ -21,17 +23,23 @@ async function fetchBooks() {
 
 }
 // display book 
-async function displayBooks(books) {
+async function displayBooks(books, page = 1) {
     //let books = await fetchBooks();
     let tbody = document.getElementById("bookTable").querySelector('tbody');
     tbody.innerHTML = "";
 
-    if (books.length === 0) {
+
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedBooks = books.slice(startIndex, endIndex);
+
+
+    if (paginatedBooks.length === 0) {
         tbody.innerHTML = "<p>No books found</p>";
         return;
     }
 
-    books.forEach(book => {
+    paginatedBooks.forEach(book => {
         let tr = document.createElement('tr');
         tr.innerHTML = `
             <td style="font-weight: bold;">${book.title}</td>
@@ -46,7 +54,50 @@ async function displayBooks(books) {
         tbody.appendChild(tr);
     })
     console.log("display: ", books)
+
+    displayPaginationControls(books, page);
 }
+//pagination 
+function displayPaginationControls(books, page) {
+    const totalPages = Math.ceil(books.length / itemsPerPage);
+    const paginationDiv = document.getElementById("pagination");
+    paginationDiv.innerHTML = "";
+
+    if (totalPages <= 1) return; // No need to paginate
+
+    if (page > 1) {
+        let prevBtn = document.createElement('button');
+        prevBtn.innerText = "Previous";
+        prevBtn.onclick = () => {
+            currentPage--;
+            displayBooks(books, currentPage);
+        };
+        paginationDiv.appendChild(prevBtn);
+    }
+
+    for (let i = 1; i <= totalPages; i++) {
+        let btn = document.createElement('button');
+        btn.innerText = i;
+        btn.disabled = i === page;
+        btn.onclick = () => {
+            currentPage = i;
+            displayBooks(books, currentPage);
+        };
+        paginationDiv.appendChild(btn);
+    }
+
+    if (page < totalPages) {
+        let nextBtn = document.createElement('button');
+        nextBtn.innerText = "Next";
+        nextBtn.onclick = () => {
+            currentPage++;
+            displayBooks(books, currentPage);
+        };
+        paginationDiv.appendChild(nextBtn);
+    }
+}
+
+
 // display filtered data
 async function displayFilteredAndSortedBooks() {
 
@@ -111,7 +162,8 @@ async function displayFilteredAndSortedBooks() {
         sortBy
     }));
 
-
+    allfilteredBooks = filteredBooks;
+    currentPage = 1;
     displayBooks(filteredBooks)
 
 }
