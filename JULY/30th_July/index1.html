@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Form</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        form {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        input,
+        select {
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        label {
+            display: none;
+        }
+
+        #moviesList {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1000px;
+            justify-content: center;
+        }
+
+        .movie-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            width: 200px;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .movie-card h4 {
+            margin: 10px 0 5px;
+        }
+
+        .movie-card p {
+            margin: 0;
+            color: #555;
+        }
+
+        #filter-sort {
+            margin-bottom: 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <form id="movieForm">
+        <input type="text" id="moviesId" name="moviesId" placeholder="id">
+        <input type="text" id="title" name="title" placeholder="Movie Title" required>
+        <input type="number" id="year" name="year" placeholder="Year" required>
+        <input type="text" id="genre" name="genre" placeholder="Genre" required>
+        <input type="url" id="imageUrl" name="imageUrl" placeholder="Image URL" required>
+        <button type="submit">Submit</button>
+        <h3>Movie List</h3>
+    </form>
+
+    <div id="filter-sort">
+        <h3>Filter and sort movies</h3>
+
+        <input type="number" id="filterYear" placeholder="Filter By Year">
+        <select id="filterGenre">
+            <option value="all-genre">All Genre</option>
+            <option value="Action">Action</option>
+            <option value="Horror">Horror</option>
+        </select>
+        <button onclick="applyFilterAndSort()">Apply Filter</button>
+
+        <select id="sortBy">
+            <option value="year-asc">Year (Oldest First)</option>
+            <option value="year-desc">Year (Newest First)</option>
+        </select>
+        <button onclick="applyFilterAndSort()">Apply Sorting</button>
+    </div>
+
+    <div id="moviesList"></div>
+
+
+
+</body>
+
+<script>
+    let fetchUrl = "https://movie-ae558-default-rtdb.asia-southeast1.firebasedatabase.app/movies";
+    // fetch movies
+    async function fetchMovies() {
+        let res = await fetch(`${fetchUrl}.json`);
+        let data = await res.json();
+        if (!data) return [];
+
+        return Object.entries(data).map(([id, movie]) => {
+            return { id, ...movie };
+        });
+    }
+
+    //applyfilter
+    async function applyFilterAndSort() {
+
+        let movies = await fetchMovies();
+
+        let selectedYear = document.getElementById('filterYear').value
+        let selectedGenere = document.getElementById('filterGenre').value;
+        let sortBy = document.getElementById('sortBy').value;
+
+        // filtering
+        let filteredMovies = movies.filter(movie => {
+            return (
+                (selectedYear === "" || movie.year == selectedYear) &&
+                ( selectedGenere === "all-genre" ||selectedGenere === "" || movie.genre == selectedGenere)
+            )
+        });
+        // sorting
+        filteredMovies.sort((a, b) => {
+            if (sortBy == "year-asc") return a.year - b.year
+            if (sortBy == "year-desc") return b.year - a.year
+        })
+        displayMovies(filteredMovies)
+    }
+
+    //  display movies
+    async function displayMovies(movies) {
+        const moviesList = document.getElementById("moviesList");
+
+        moviesList.innerHTML = "";
+
+        if (movies.length === 0) {
+            moviesList.innerHTML = "<p>No movies found</p>";
+            return;
+        }
+
+        movies.forEach(movie => {
+            let movieCard = document.createElement('div');
+            movieCard.className = "movie-card";
+
+            movieCard.innerHTML = `
+                <img src="${movie.imageUrl}" alt="${movie.title}">
+                <h4>${movie.title} (${movie.year})</h4>
+                <p>${movie.genre}</p>
+                <button onclick="editMovie('${movie.id}', '${movie.title}', '${movie.year}', '${movie.genre}', '${movie.imageUrl}')">Edit</button>
+                <button onclick="deleteMovie('${movie.id}')">Delete</button>
+            `;
+
+            moviesList.appendChild(movieCard);
+        });
+    }
+
+    //  Add or Update movie based on whether an ID is present
+    async function addOrUpdate(event) {
+        event.preventDefault(); // prevent form reload
+
+        const id = document.getElementById("moviesId").value.trim();
+        const title = document.getElementById("title").value;
+        const year = document.getElementById("year").value;
+        const genre = document.getElementById("genre").value;
+        const imageUrl = document.getElementById("imageUrl").value;
+
+        const movieData = { title, year, genre, imageUrl };
+
+        // if Id not present than create, use POST
+        let url = `${fetchUrl}.json`;
+        let method = "POST";
+
+        // If ID is present, use PATCH to update the existing movie
+        if (id) {
+            url = `${fetchUrl}/${id}.json`;
+            method = "PATCH";
+        }
+
+        await fetch(url, {
+            method: method,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(movieData)
+        });
+
+        document.getElementById("movieForm").reset();
+        applyFilterAndSort();
+    }
+
+    //  Edit pre-fills the form with selected movie data, when edit button clicked
+    function editMovie(id, title, year, genre, imageUrl) {
+        document.getElementById("moviesId").value = id;
+        document.getElementById("title").value = title;
+        document.getElementById("year").value = year;
+        document.getElementById("genre").value = genre;
+        document.getElementById("imageUrl").value = imageUrl;
+    }
+
+    //  Delete movie by ID
+    async function deleteMovie(id) {
+        await fetch(`${fetchUrl}/${id}.json`, {
+            method: "DELETE"
+        });
+        applyFilterAndSort();
+    }
+
+    //  Hook form submit to addOrUpdate()
+    document.getElementById("movieForm").addEventListener("submit", addOrUpdate);
+
+
+    // Initial load
+   applyFilterAndSort()
+</script>
+
+
+</html>

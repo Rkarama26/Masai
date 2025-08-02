@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+</head>
+<style>
+    #loginForm {
+        max-width: 400px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-family: Arial, sans-serif;
+        color: #333;
+    }
+
+    #loginForm input {
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        box-sizing: border-box;
+    }
+
+    #loginForm button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    #loginForm button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<body>
+    <h2>Login</h2>
+    <form id="loginForm">
+        <input type="email" id="loginEmail" placeholder="Email" required />
+        <input type="password" id="loginPassword" placeholder="Password" required />
+        <button type="submit">Login</button>
+    </form>
+    <p id="loginStatus" style="color:red;"></p>
+
+    <script>
+        const url = "https://ideahub-57c8a-default-rtdb.asia-southeast1.firebasedatabase.app/user.json";
+
+        document.getElementById("loginForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const email = document.getElementById("loginEmail").value;
+            const password = document.getElementById("loginPassword").value;
+
+            try {
+                const response = await fetch(url);
+                const users = await response.json();
+
+                let isAuthenticated = false;
+
+                for (let key in users) {
+                    if (users[key].email === email && users[key].password === password) {
+                        isAuthenticated = true;
+                        sessionStorage.setItem("user", email);
+                        window.location.href = "dashboard.html";
+                        break;
+                    }
+                }
+
+                if (!isAuthenticated) {
+                    document.getElementById("loginStatus").textContent = "Invalid email or password!";
+                }
+            } catch (error) {
+                console.error("Login error:", error);
+            }
+        });
+    </script>
+</body>
+
+</html>

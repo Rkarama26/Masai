@@ -1,0 +1,52 @@
+{
+  "posts": {
+    "idea-1": {
+      "id": "idea-1",
+      "title": "Decentralized Voting System",
+      "description": "A blockchain-based voting system for secure elections.",
+      "upvotes": 23,
+      "author": "demo1@example.com",
+      "timestamp": 1690968000000
+    },
+    "idea-2": {
+      "id": "idea-2",
+      "title": "AI Study Buddy",
+      "description": "An AI-powered companion to help students stay focused and organized.",
+      "upvotes": 15,
+      "author": "demo2@example.com",
+      "timestamp": 1690968600000
+    },
+    "idea-3": {
+      "id": "idea-3",
+      "title": "GreenCommute App",
+      "description": "An app to incentivize eco-friendly commuting through rewards and badges.",
+      "upvotes": 12,
+      "author": "demo3@example.com",
+      "timestamp": 1690969200000
+    },
+    "idea-4": {
+      "id": "idea-4",
+      "title": "SkillSwap Platform",
+      "description": "A community where people can trade skills like coding for guitar lessons.",
+      "upvotes": 18,
+      "author": "demo4@example.com",
+      "timestamp": 1690969800000
+    },
+    "idea-5": {
+      "id": "idea-5",
+      "title": "Local Farm Connect",
+      "description": "A platform that connects local farmers with urban consumers for fresh produce.",
+      "upvotes": 20,
+      "author": "demo5@example.com",
+      "timestamp": 1690970400000
+    },
+    "idea-6": {
+      "id": "idea-6",
+      "title": "Mental Wellness Tracker",
+      "description": "An app that helps track moods and suggest personalized mental health tips.",
+      "upvotes": 9,
+      "author": "demo6@example.com",
+      "timestamp": 1690971000000
+    }
+  }
+}

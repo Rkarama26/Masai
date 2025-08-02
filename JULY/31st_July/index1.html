@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        margin: 20px;
+        background-color: #f9f9f9;
+    }
+
+    select,
+    input,
+    button {
+        margin: 5px;
+        padding: 8px;
+        font-size: 16px;
+    }
+
+    button {
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    #moviesList {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 2px;
+        gap: 20px;
+    }
+
+    #moviesList>div {
+        background-color: white;
+        padding: 10px;
+        margin: 10px;
+        border-radius: 5px;
+        width: 180px;
+    }
+
+    img {
+        width: 100%;
+    }
+</style>
+
+<body>
+    <h2>📽️ Movie Search</h2>
+
+
+    <input type="text" name="" id="searchInput" placeholder="Search...">
+    <button onclick="search()">Search</button>
+
+    <!-- sorting -->
+    <select name="" id="sortOptions" onchange="sortMovies()">
+        <option value="year-asc">Year (Oldest First)</option>
+        <option value="year-desc">Year (Newest First)</option>
+    </select>
+    <!-- filering -->
+
+    <button onclick="filterMovies('movie')">Movies</button>
+    <button onclick="filterMovies('series')">Series</button>
+    <button onclick="filterMovies('episode')">Episode</button>
+
+    <div id="moviesList">
+    </div>
+</body>
+<script>
+
+    let API_KEY = "ce71831e";
+    let moviesData = [] // store globally
+
+    async function search() {
+        let container = document.getElementById("moviesList");
+
+        let query = document.getElementById("searchInput").value;
+        if (!query) return alert("Please Enter Movie Name")
+
+        let response = await fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`);
+        let data = await response.json();
+        console.log(data);
+
+        if (data.Search) {
+            moviesData = data.Search;
+            displayMovies(moviesData)
+        }
+        else {
+            container.innerHTML = `
+            <p>No Movie Found</p>
+            `
+        }
+    }
+
+    async function displayMovies(movies) {
+        let container = document.getElementById("moviesList");
+        container.innerHTML = "";
+
+        movies.forEach((movie) => {
+            let movieCard = document.createElement('div');
+            movieCard.innerHTML = `
+
+                <img src="${movie.Poster}" alt="">
+                <h3>${movie.Title} (${movie.Year})</h3>
+            `
+            container.appendChild(movieCard);
+        });
+    }
+
+    function sortMovies() {
+        let sortBy = document.getElementById('sortOptions').value;
+
+        let sortedMovies = [...moviesData];
+        sortedMovies.sort((a, b) => {
+            let yearA = parseInt(a.Year); // convert string to number
+            let yearB = parseInt(b.Year);
+
+            if (sortBy === "year-asc") return yearA - yearB;
+            if (sortBy === "year-desc") return yearB - yearA;
+        })
+
+        displayMovies(sortedMovies)
+
+
+    }
+
+    async function filterMovies(type) {
+        let query = document.getElementById('searchInput').value;
+        let container = document.getElementById("moviesList");
+
+        if (!query) return alert("Enter movie name");
+
+        let res = await fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}&type=${type}`);
+        let data = await res.json();
+        console.log(data)
+        if (data.Search) {
+            moviesData = data.Search;
+            displayMovies(moviesData);
+        }
+        else {
+            container.innerHTML = `
+        <p>No Content Found</p>
+
+        `
+        }
+    }
+</script>
+
+</html>

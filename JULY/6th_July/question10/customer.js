@@ -3,7 +3,7 @@
 export function Customer(name, rentedCar = []) {
     this.name = name;
     this.rentedCar = rentedCar
-}
+}  
 
 // get a car on rent 
 Customer.prototype.getCarOnRent = function (car) {

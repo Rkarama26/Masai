@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>IdeaHub with Firebase</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>💡 IdeaHub</h1>
+    <div id="header" style="text-align: center;">
+        <button id="myIdeasBtn" style="margin: 10px; padding: 5px; border-radius: 10px;">🔍 My Ideas</button>
+
+        <input type="text" id="searchInput" placeholder="🔍 Search by title..."
+            style="margin: 10px; padding: 8px; width: 200px; border-radius: 50px;">
+
+        <select id="sortSelect" style="margin: 10px; padding: 5px; border-radius: 10px; border: 1px black;">
+            <option value="recent"> Most Recent</option>
+            <option value="popular">🔥 Most Popular</option>
+        </select>
+
+    </div>
+    <div id="ideaFeed">
+        <!-- will insert data here -->
+    </div>
+    <form id="ideaForm">
+        <h3>Post a New Idea</h3>
+        <input type="text" id="titleInput" placeholder="Title" required />
+        <textarea id="descInput" placeholder="Short description..." required rows="3"></textarea>
+        <button id="submitBtn" type="submit">Submit Idea</button>
+    </form>
+
+    <button id="logoutButton" onclick="logout()">Logout</button>
+
+
+
+
+    <script>
+
+
+
+        // if not logged in
+        if (!sessionStorage.getItem("user")) {
+            alert("You must log in first!");
+            window.location.href = "login.html";
+        }
+        //    for logout
+        function logout() {
+            sessionStorage.removeItem("user");
+            window.location.href = "login.html";
+        }
+        /*
+                // Access the Submit Idea button
+                const submitBtn = document.getElementById("submitBtn");
+        
+                // Check login status and toggle visibility
+                const currentUser = sessionStorage.getItem("user");
+                if (currentUser) {
+                    submitBtn.style.display = "inline-block";
+                } else {
+                    submitBtn.style.display = "none";
+                }
+        
+        */
+        const FEED_URL = "https://ideahub-57c8a-default-rtdb.asia-southeast1.firebasedatabase.app/";
+        const ideaFeed = document.getElementById("ideaFeed");
+        let searchQuery = "";
+        let showOnlyMine = false; // flag
+        let sortBy = "recent";
+
+
+        // Fetching form db
+        async function fetchIdeas() {
+            const res = await fetch(`${FEED_URL}posts.json`);
+            const data = await res.json();
+
+            //  object to array 
+            const ideas = Object.entries(data || {}).map(([id, item]) => ({
+                id,
+                ...item
+            }));
+            console.log(ideas)
+            const finalIdeas = filterAndSortIdeas(ideas);
+
+            renderIdeas(finalIdeas);
+        }
+
+        // Render all posts
+        function renderIdeas(ideas) {
+            const currentUser = sessionStorage.getItem("user");
+            ideaFeed.innerHTML = "";
+            ideas.reverse()
+            console.log(ideas)
+            // only currentUser
+            if (showOnlyMine && currentUser) {
+                ideas = ideas.filter(idea => idea.author === currentUser);
+            }
+            //search result
+            if (searchQuery) {
+                ideas = ideas.filter(idea => idea.title.toLowerCase().includes(searchQuery));
+            }
+
+
+
+            ideas.forEach((idea) => {
+                const card = document.createElement("div");
+                card.className = "idea-card";
+                card.innerHTML = `
+          <div class="idea-title">${idea.title}</div>
+          <div class="idea-description">${idea.description}</div>
+          <div class="upvote-section">
+
+            <button class="upvote-button" data-id="${idea.id}" data-count="${idea.upvotes || 0}">⬆ Upvote</button>
+            <span class="upvote-count" id="count-${idea.id}">${idea.upvotes || 0}</span>
+           <p> ${idea.timestamp ? new Date(idea.timestamp).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "2-digit"
+                }) : ""}
+             </p>
+
+             <p style="font-size: 0.9em; color: gray;">👤 ${idea.author || "Unknown"}</p>
+
+
+
+          </div>
+           ${idea.author === currentUser
+                        ? `<button class="delete-button" data-id="${idea.id}" style="margin-top: 10px; background-color: red; color: white; border: none; padding: 5px 10px; border-radius: 5px;"> Delete</button>`
+                        : ""
+                    }
+        `;
+                ideaFeed.appendChild(card);
+            });
+        }
+
+        // filtering and sorting 
+        function filterAndSortIdeas(ideas) {
+            const currentUser = sessionStorage.getItem("user");
+
+            // Filter by author if "My Ideas" is toggled
+            if (showOnlyMine && currentUser) {
+                ideas = ideas.filter(idea => idea.author === currentUser);
+            }
+
+            // Filter by search query
+            if (searchQuery) {
+                ideas = ideas.filter(idea =>
+                    idea.title.toLowerCase().includes(searchQuery)
+                );
+            }
+
+            // Sort based on selection
+            ideas.sort((a, b) => {
+                if (sortBy === "popular") {
+                    return (b.upvotes || 0) - (a.upvotes || 0);
+                } else {
+                    return (b.timestamp || 0) - (a.timestamp || 0); // Most recent
+                }
+            });
+
+            return ideas;
+        }
+
+        // Handle upvotes
+        async function handleUpvote(id, currentCount) {
+            const newCount = currentCount + 1;
+
+            await fetch(`${FEED_URL}posts/${id}.json`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ upvotes: newCount })
+            });
+
+            fetchIdeas();
+        }
+
+        //  upvote buttons , event on parent div
+        ideaFeed.addEventListener("click", async (e) => {
+            //  upvote
+            if (e.target.classList.contains("upvote-button")) {
+                const id = e.target.dataset.id;
+                const current = parseInt(e.target.dataset.count);
+                handleUpvote(id, current);
+            }
+
+            //  delete
+            if (e.target.classList.contains("delete-button")) {
+                const id = e.target.dataset.id;
+                const confirmDelete = confirm("Are you sure you want to delete this idea?");
+                if (confirmDelete) {
+                    await fetch(`${FEED_URL}posts/${id}.json`, {
+                        method: "DELETE"
+                    });
+                    fetchIdeas(); // Refresh
+                }
+            }
+        });
+
+
+        // Initial
+        fetchIdeas();
+
+
+        const ideaForm = document.getElementById("ideaForm");
+        const titleInput = document.getElementById("titleInput");
+        const descInput = document.getElementById("descInput");
+
+        const author = sessionStorage.getItem("user");
+
+        // Posting to DB
+        ideaForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            if (!author) {
+                alert("You must be logged in to submit an idea.");
+                return;
+            }
+
+            const title = titleInput.value.trim();
+            const description = descInput.value.trim();
+
+            if (!title || !description) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            const newIdea = {
+                title,
+                description,
+                upvotes: 0,
+                author,
+                timestamp: Date.now()
+            };
+
+            await fetch(`${FEED_URL}posts.json`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newIdea)
+            });
+
+            // Clear form
+            titleInput.value = "";
+            descInput.value = "";
+
+            // Refresh
+            fetchIdeas();
+        });
+
+
+        //show author's ideas
+        const myIdeasBtn = document.getElementById("myIdeasBtn");
+
+        myIdeasBtn.addEventListener("click", () => {
+            showOnlyMine = !showOnlyMine;
+            myIdeasBtn.textContent = showOnlyMine ? "🌐 Show All Ideas" : "🔍 My Ideas";
+            fetchIdeas();
+        });
+
+        const searchInput = document.getElementById("searchInput");
+
+        searchInput.addEventListener("input", (e) => {
+            searchQuery = e.target.value.toLowerCase();
+            fetchIdeas();
+        });
+
+
+        const sortSelect = document.getElementById("sortSelect");
+
+        sortSelect.addEventListener("change", (e) => {
+            sortBy = e.target.value;
+            fetchIdeas();
+        });
+
+
+
+        // every 3 seconds  live 
+        setInterval(fetchIdeas, 3000);
+
+    </script>
+
+</body>
+
+</html>

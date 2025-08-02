@@ -1,0 +1,76 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "title": "Dune",
+      "author": "Frank Herbert",
+      "genre": "Science Fiction",
+      "publishedYear": 1965,
+      "available": true
+    },
+    {
+      "id": 2,
+      "title": "1984",
+      "author": "George Orwell",
+      "genre": "Dystopian",
+      "publishedYear": 1949,
+      "available": false
+    },
+    {
+      "id": 3,
+      "title": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "genre": "Fiction",
+      "publishedYear": 1960,
+      "available": true
+    },
+    {
+      "id": 4,
+      "title": "The Hobbit",
+      "author": "J.R.R. Tolkien",
+      "genre": "Fantasy",
+      "publishedYear": 1937,
+      "available": true
+    },
+    {
+      "id": 5,
+      "title": "The Catcher in the Rye",
+      "author": "J.D. Salinger",
+      "genre": "Classic",
+      "publishedYear": 1951,
+      "available": false
+    }
+  ],
+  "members": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "membershipDate": "2023-01-15",
+      "active": true
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "membershipDate": "2022-05-23",
+      "active": false
+    },
+    {
+      "id": 3,
+      "name": "Michael Johnson",
+      "membershipDate": "2024-02-10",
+      "active": true
+    },
+    {
+      "id": 4,
+      "name": "Emily Davis",
+      "membershipDate": "2023-11-30",
+      "active": true
+    },
+    {
+      "id": 5,
+      "name": "Robert Brown",
+      "membershipDate": "2021-07-19",
+      "active": false
+    }
+  ]
+}

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+
+</style>
+
+<body>
+    <div id="outer">
+        parent div
+        <div id="inner">
+            child dvi
+        </div>
+    </div>
+</body>
+<script>
+    /*
+       //  Bubbling(default - goes from inner to outer)
+       document.getElementById("outer").addEventListener("click", () => {
+           alert("Outer DIV clicked - Bubbling");
+       });
+   
+       document.getElementById("inner").addEventListener("click", () => {
+           alert("Inner DIV clicked - Bubbling");
+       });
+   */
+    /*
+        // Capturing (goes from outer to inner)
+        document.getElementById("outer").addEventListener("click", (event) => {
+            alert("Outer DIV clicked - Capturing");
+            event.stopPropagation()
+        }, true);  // true = capturing phase
+    
+        document.getElementById("inner").addEventListener("click", (event) => {
+            alert("Inner DIV clicked - Capturing");
+    
+        }, true);
+    */
+
+    /*
+    Closures - Are the functions that have access to variables in it's 
+               lexical scope , even the outer function is finished.
+             
+               lexical scope - it is an structure of variables and function binding
+                             created - when function are declared
+                      
+               advantages - encasulation, data privacy, prevent scope pollution
+               disAdvantages - Memory leak - having  no longer needed refrences.              
+    
+    
+        function factory() {
+            let a = 5;
+            return {
+                fun1: function () {
+                    let b = 1
+                    return a + b
+                },
+                fun2: function () {
+                    let b = 2
+                    return a + b;
+                }
+            }
+        }
+    
+        let fac = factory();
+        console.log(fac.fun1())
+        console.log(fac.fun2())
+    
+        */
+
+
+    /*
+    this
+    */
+
+    /*
+    -- arrow functions don't have their own this  
+      they have lixical this
+   
+       let person = {
+           name: "rohit",
+   
+           display: function () {
+               //  console.log(`display name: ${this.name}`)
+               const show = () => console.log(`display name: ${this.name}`)
+               show()
+           }
+   
+       }
+   
+       let inner = person.display();
+   */
+    /*
+        // array destructuring
+    
+        let obj = {
+            name: "rohit",
+            address: {
+                city: "Bhopal",
+                state: "MP",
+                area: "Kokta"
+            },
+            occupation: "dev"
+        }
+    
+        let { name,
+            address: { city, state, area },
+            occupation : profession
+        } = obj;
+    
+        console.log(profession);
+    */
+
+    // cloning
+    /*
+        let arr = [1,2,3, [4, 5]];
+        let arr2 = [...arr]; // crating a shallow copy 
+        arr2.push(6)
+        console.log("arr", arr)
+    
+        */
+    /*
+       let name = "rohit"
+       function display(){
+       
+        console.log("name:",name)
+       }
+       display()
+    
+       */
+    // this--------------------------------
+
+    //console.log(this)
+    /*
+        let name = "vansh";
+        let obj = {
+            name: "rohit",
+            fun1: function () {
+                console.log(this.name)
+            }
+        }
+        obj.fun1();
+        */
+
+    /*
+        let person1 = {
+            name: "vansh",
+            lastName: "karma",
+            display: function () {
+                return `${this.name} ${this.lastName}`;
+            }
+        }
+        let person2 = { name: "rohit", lastName: "vishwakarma" };
+    
+        // console.log(person1.display()); // this refer to parent obj;
+        // console.log(person1.display.call(person2)) // now this refer to person2 obj
+    
+        name = "globalName"
+        lastName = "globalLastName"
+        function show() {
+            return `${this.name} ${this.lastName}`;
+        }
+    
+        console.log(show())
+    */
+    // Async js-----------------------------
+    /*
+    console.log("start")
+    
+    setTimeout(()=> {
+        console.log("after 5 secs")
+    }, 5000)
+    
+    Promise.resolve().then(() => {
+        console.log("promises")
+    })
+    
+    console.log("end")
+    */
+    /*
+        let promise = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log("in 2 sec")
+            }, 2000)
+        })
+    */
+    // function currying
+    /*   function add(a) {
+           return function (b) {
+               return function (c) {
+                   return a + b + c;
+               }
+           }
+       }
+   
+      console.log(add(1)(2)(3))
+   */
+    // Promises--------------------------------------------
+    /*
+    let promise = new Promise((resolve, reject) =>{
+       
+        if(true){
+            resolve("resolve")
+        }
+        else{
+            reject("reject")
+        }
+    })
+    .then((value) => {
+        console.log("resolved: ",value)
+    })
+    .catch((value) => {
+        console.log("error: ", value)
+    })
+    
+    console.log(promise)
+    */
+    /*
+    let promise = new Promise((res, rej) => {
+        setTimeout(() => {
+            res("after 2 sec")
+        }, 2000)
+    })
+    .then((value) => {
+        console.log(value)
+    })
+    */
+    /*
+        function fetchData() {
+            return new Promise((res, rej) => {
+                const result = null;
+                setTimeout(() => {
+                    if (result) {
+                        res("done after 2 secs")
+                    }
+                    else {
+                        rej("not done rejected")
+                    }
+                }, 2000)
+            })
+            .then((value) => {
+                console.log(value)
+            })
+            .catch((value) => {
+                console.log(value)
+            })
+        }
+    
+        fetchData()
+    */
+
+
+    // Factory function ------------------------------------
+    /*
+        function Employee(name, lastName, address) {
+            return {
+                name,
+                lastName,
+                address,
+                display: function () {
+                    return `${this.name}, ${this.lastName}, ${this.address}`;
+                }
+            }
+        }
+    
+        let obj1 = Employee("rohit", "karma", "bhopal")
+        //console.log(obj1.display())
+    
+        // resusing employee to create Manager
+    
+        function Manager(name, lastName, address, department) {
+            let newObj = Employee(name, lastName, address)
+            newObj.department = department;
+    
+            newObj.display = function () {
+                return `${this.name}, ${this.lastName}, ${this.address}, ${this.department}`;
+            };
+    
+            return newObj;
+        }
+    
+        let manager1 = Manager("rohit", "karma", "Bhopal", "IT");
+        //console.log(manager1.display())
+    */
+    // 1. constructor function-----------------------
+    /*
+        function CarFactory(title, brand, number) {
+            this.title = title;
+            this.brand = brand;
+            this.number = number;
+        }
+    
+        CarFactory.prototype.display = function () {
+            return `${this.title}, ${this.brand}, ${this.number}`;
+        };
+    
+        const newCar = new CarFactory("thar", "Mahindra", "56789");
+        console.log(newCar.display());
+    */
+    /*
+    new keyword -> enable the usage of this keyword inside the constructor function,
+    and bind this keyword to an empty object instance.
+    */
+
+    // 2. constructor function-----------------------
+    /*
+        function User(firstName, lastName) {
+    
+            this.firstName = firstName,
+                this.lastName = lastName
+        }
+    
+        User.prototype.display = function () {
+            return `${this.firstName} ${this.lastName}`
+        }
+    
+        let obj1 = new User("rohit", "karma")
+        console.log(obj1.display())
+    */
+    //-------------------------------------
+    /*
+        function Admin(firstName, lastName) {
+            User.call(this, firstName, lastName),// using User
+                this.role = "admin"
+        }
+    
+        Admin.prototype = Object.create(User.prototype);
+        Admin.prototype.constructor = Admin;
+        let admin1 = new Admin("vansh", "Karma")
+        console.log(admin1)
+        console.log(admin1.display())
+    
+        console.log(Object.getPrototypeOf(admin1.__proto__))
+        console.log(admin1.prototype)
+        */
+
+/*
+    class User {
+        constructor(firstName, address) {
+            this.name = firstName,
+                this.location = address
+        }
+        display() {
+            return `${this.name} and ${this.location}`
+        }
+    }
+    class Manager extends User{
+        constructor(firstName, address, age){
+            super(firstName, address),
+            this.age = age;
+        }
+
+    }
+
+    let user1 = new User("rohit", "Bhopal")
+    console.log(user1.display())
+    let manager1 = new Manager("vansh", "INDORE", 23);
+    console.log(manager1.display())
+*/
+</script>
+
+</html>
