@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Todos with Pagination</title>
+    <style>
+        #container {
+            text-align: center;
+
+        }
+
+        #todosContainer div {
+            width: 50%;
+            padding: 8px;
+            margin: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #pagination {
+            margin-top: 10px;
+        }
+
+        #fetchBtn {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="container">
+        <h2>Todos List</h2>
+        <!-- Fetch Button -->
+        <button id="fetchBtn" onclick="fetchTodos()">Fetch Todos</button>
+
+        <!-- Container to display todos -->
+        <div id="todosContainer"></div>
+
+        <!-- Pagination controls -->
+        <div id="pagination">
+            <button onclick="prevPage()">Previous</button>
+            <span id="pageNum">1</span>
+            <button onclick="nextPage()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentPage = 1;
+        const todosPerPage = 10;
+        let allTodos = [];
+
+        // Fetch clicked
+        async function fetchTodos() {
+            try {
+                const res = await fetch('https://jsonplaceholder.typicode.com/todos');
+                const data = await res.json();
+                allTodos = data;
+                currentPage = 1; // Reset to page 1
+                renderTodos(currentPage);
+            } catch (error) {
+                console.error("Failed to fetch todos:", error);
+            }
+        }
+
+        // Display todos for the current page
+        function renderTodos(page) {
+            const container = document.getElementById("todosContainer");
+            container.innerHTML = ""; // Clear 
+
+            const start = (page - 1) * todosPerPage;
+            const end = start + todosPerPage;
+            const pageTodos = allTodos.slice(start, end);
+
+            pageTodos.forEach(todo => {
+                const todoItem = document.createElement("div");
+                todoItem.textContent = `${todo.id}. ${todo.title}`;
+                container.appendChild(todoItem);
+            });
+
+            document.getElementById("pageNum").innerText = page;
+        }
+
+        // next page
+        function nextPage() {
+            const totalPages = Math.ceil(allTodos.length / todosPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTodos(currentPage);
+            }
+        }
+
+        // previous page
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTodos(currentPage);
+            }
+        }
+    </script>
+</body>
+
+</html>
