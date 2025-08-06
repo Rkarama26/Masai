@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Throttled Image Slider</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+    img {
+      width: 600px;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    button {
+      padding: 10px 20px;
+      margin: 20px 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #slideNumber {
+      margin-top: 10px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Image Slider (Throttled)</h2>
+  <img id="slider" src="https://picsum.photos/600/400?random=1" alt="Random Image">
+  <div>
+    <button id="prevBtn">Previous</button>
+    <button id="nextBtn">Next</button>
+  </div>
+  <div id="slideNumber">Slide: 1</div>
+
+  <script>
+    const slider = document.getElementById('slider');
+    const slideNumberText = document.getElementById('slideNumber');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    let slideIndex = 1;
+    let imageHistory = [getNewImageUrl(1)];
+    let lastClickTime = 0;
+    let clickCount = 0;
+
+    function getNewImageUrl(seed) {
+      return `https://picsum.photos/600/400?random=${seed}`;
+    }
+
+    function updateImage() {
+      slider.src = imageHistory[slideIndex - 1];
+      slideNumberText.textContent = `Slide: ${slideIndex}`;
+    }
+
+    function handleClick(direction) {
+      const now = Date.now();
+      if (now - lastClickTime < 1000) {
+        clickCount++;
+        if (clickCount > 3) {
+          alert("Chill chill, loading it!!");
+          return;
+        }
+        return; // ignore rapid clicks
+      }
+
+      lastClickTime = now;
+      clickCount = 1;
+
+      if (direction === 'next') {
+        slideIndex++;
+        imageHistory.push(getNewImageUrl(slideIndex));
+      } else if (direction === 'prev' && slideIndex > 1) {
+        slideIndex--;
+      }
+
+      updateImage();
+    }
+
+    nextBtn.addEventListener('click', () => handleClick('next'));
+    prevBtn.addEventListener('click', () => handleClick('prev'));
+
+    // Initial 
+    updateImage();
+  </script>
+</body>
+</html>

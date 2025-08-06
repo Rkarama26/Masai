@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h2>Admin Dashboard</h2>
+
+  <input type="text" id="title" placeholder="Title" />
+  <input type="number" id="price" placeholder="Price" />
+  <input type="text" id="image" placeholder="Image URL" />
+  <button onclick="addProduct()">Add Product</button>
+
+  <div id="productList"></div>
+
+  <script src="middleware.js"></script>
+  <script>
+    const PRODUCTS_URL = "https://auth-d2bdd-default-rtdb.firebaseio.com/products";
+
+    async function addProduct() {
+      const product = {
+        title: document.getElementById("title").value,
+        price: parseFloat(document.getElementById("price").value),
+        image: document.getElementById("image").value
+      };
+
+      await fetch(PRODUCTS_URL + ".json", {
+        method: "POST",
+        body: JSON.stringify(product),
+        headers: { "Content-Type": "application/json" }
+      });
+
+      fetchProducts();
+    }
+
+    async function fetchProducts() {
+      const res = await fetch(PRODUCTS_URL + ".json");
+      const data = await res.json();
+
+      let html = "";
+      for (let id in data) {
+        const p = data[id];
+        html += `
+          <div class="card">
+            <img src="${p.image}" />
+            <h3>${p.title}</h3>
+            <p>₹${p.price}</p>
+            <input type="text" id="title-${id}" value="${p.title}" />
+            <input type="number" id="price-${id}" value="${p.price}" />
+            <input type="text" id="image-${id}" value="${p.image}" />
+            <button onclick="editProduct('${id}')">Edit</button>
+            <button onclick="deleteProduct('${id}')">Delete</button>
+          </div>
+        `;
+      }
+      document.getElementById("productList").innerHTML = html;
+    }
+
+    async function editProduct(id) {
+      const updated = {
+        title: document.getElementById(`title-${id}`).value,
+        price: parseFloat(document.getElementById(`price-${id}`).value),
+        image: document.getElementById(`image-${id}`).value
+      };
+
+      await fetch(`${PRODUCTS_URL}/${id}.json`, {
+        method: "PUT",
+        body: JSON.stringify(updated)
+      });
+
+      fetchProducts();
+    }
+
+    async function deleteProduct(id) {
+      await fetch(`${PRODUCTS_URL}/${id}.json`, {
+        method: "DELETE"
+      });
+      fetchProducts();
+    }
+
+    fetchProducts();
+  </script>
+</body>
+</html>

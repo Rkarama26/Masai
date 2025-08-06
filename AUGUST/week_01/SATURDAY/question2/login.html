@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+</head>
+<body>
+  <h2>Login</h2>
+  <input type="email" id="email" placeholder="Enter Email" />
+  <button onclick="login()">Login</button>
+
+  <script>
+    async function login() {
+      const email = document.getElementById("email").value;
+
+      const res = await fetch("https://auth-d2bdd-default-rtdb.firebaseio.com/users.json");
+      const data = await res.json();
+
+      for (let key in data) {
+        if (data[key].email === email) {
+          localStorage.setItem("email", email);
+          const role = data[key].role;
+          window.location.href = role === "admin" ? "admin-dashboard.html" : "user-dashboard.html";
+          return;
+        }
+      }
+
+      alert("User not found");
+    }
+  </script>
+</body>
+</html>

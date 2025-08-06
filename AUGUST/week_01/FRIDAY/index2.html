@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OMDB Debounced Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        input {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        #results {
+            margin-top: 20px;
+        }
+
+        .movie-title {
+            padding: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Search Movies</h2>
+    <input type="text" id="searchInput" placeholder="Type movie name..." />
+    <div id="results"></div>
+
+    <script>
+        const apiKey = "ce71831e";
+
+        const input = document.getElementById('searchInput');
+        const resultsDiv = document.getElementById('results');
+
+        let debounceTimer;
+        // search query
+        input.addEventListener('input', () => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                const query = input.value.trim();
+                if (query) {
+                    fetchMovies(query);
+                } else {
+                    resultsDiv.innerHTML = '';
+                }
+            }, 500);
+        });
+        //fetch movies
+        async function fetchMovies(query) {
+            try {
+                const response = await fetch(`https://www.omdbapi.com/?apikey=${apiKey}&s=${encodeURIComponent(query)}`);
+                const data = await response.json();
+
+                if (data.Response === "True") {
+                    displayMovies(data.Search);
+                } else {
+                    resultsDiv.innerHTML = `<p>No movies found.</p>`;
+                }
+            } catch (error) {
+                console.error('Error fetching movies:', error);
+                resultsDiv.innerHTML = `<p>Error fetching movies.</p>`;
+            }
+        }
+        //display
+        function displayMovies(movies) {
+            resultsDiv.innerHTML = movies
+                .map(movie => `<div class="movie-title">${movie.Title} (${movie.Year})</div>`)
+                .join('');
+        }
+    </script>
+</body>
+
+</html>

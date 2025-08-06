@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+</head>
+<body>
+  <h2>Login</h2>
+  <input type="email" id="email" placeholder="Email" required />
+  <input type="password" id="password" placeholder="Password" required />
+  <button onclick="login()">Login</button>
+
+  <script>
+    const DB_URL = "https://users-34960-default-rtdb.asia-southeast1.firebasedatabase.app/users.json";
+
+    function login() {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      fetch(DB_URL)
+        .then((res) => res.json())
+        .then((data) => {
+          let success = false;
+          for (let id in data) {
+            if (data[id].email === email && data[id].password === password) {
+              localStorage.setItem("isLoggedIn", "true");
+              success = true;
+              break;
+            }
+          }
+          if (success) {
+            window.location.href = "dashboard.html";
+          } else {
+            alert("Wrong credentials! Try again.");
+          }
+        })
+        .catch((err) => alert("Error: " + err.message));
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+{
+  "users": {
+    "userID1": {
+      "email": "admin@example.com",
+      "role": "admin"
+    },
+    "userID2": {
+      "email": "user@example.com",
+      "role": "user"
+    }
+  },
+  "products": {
+    "product1": {
+      "title": "Arduino Uno R3",
+      "price": 599,
+      "image": "https://www.electronicwings.com/public/images/user_images/images/arduino-uno-r3-main.png"
+    },
+    "product2": {
+      "title": "Raspberry Pi 4 Model B",
+      "price": 4299,
+      "image": "https://www.raspberrypi.com/app/uploads/2021/07/Raspberry-Pi-4-Hero.jpg"
+    },
+    "product3": {
+      "title": "NodeMCU ESP8266",
+      "price": 299,
+      "image": "https://components101.com/sites/default/files/component_pin/NodeMCU-ESP8266-Pinout.png"
+    },
+    "product4": {
+      "title": "Breadboard (830 Points)",
+      "price": 99,
+      "image": "https://www.electronicscomp.com/image/cache/catalog/Breadboard/breadboard-830-point-solderless-white-800x800.jpg"
+    },
+    "product5": {
+      "title": "DHT11 Temperature & Humidity Sensor",
+      "price": 45,
+      "image": "https://components101.com/sites/default/files/component_pin/DHT11-Sensor-Pinout.png"
+    },
+    "product6": {
+      "title": "16x2 LCD Display (Green Backlight)",
+      "price": 120,
+      "image": "https://www.electronicwings.com/public/images/user_images/images/16X2-LCD-MODULE-1.png"
+    }
+  }
+}

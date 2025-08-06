@@ -1,0 +1,36 @@
+<h2>Register</h2>
+<form id="registerForm">
+  <input type="email" id="email" required placeholder="Email" />
+  <input type="password" id="password" required placeholder="Password" />
+  <select id="role">
+    <option value="user">User</option>
+    <option value="admin">Admin</option>
+  </select>
+  <button type="submit">Register</button>
+</form>
+
+<script>
+  const USERS_URL = "https://auth-d2bdd-default-rtdb.firebaseio.com/users.json";
+
+  document.getElementById("registerForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const role = document.getElementById("role").value;
+
+    const user = { email, password, role };
+
+    try {
+      await fetch(USERS_URL, {
+        method: "POST",
+        body: JSON.stringify(user),
+        headers: { "Content-Type": "application/json" }
+      });
+      alert("Registration successful!");
+      window.location.href = "login.html";
+    } catch (error) {
+      alert("Registration failed: " + error.message);
+    }
+  });
+</script>
