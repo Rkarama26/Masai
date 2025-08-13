@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+
+</head>
+
+<body>
+    <div id="root">
+        <h1>Hello form DOM </h1>
+    </div>
+
+</body>
+
+</html>
+
+<script type="text/babel">
+    // 1. fragment
+    let element = (
+
+        /*  by this an extra wrapping of div present
+                <div> 
+                    <h1>hello world</h1>
+                </div>
+        */
+
+        // by using fragment we can element that extra wrapping
+        <>
+            <h1>Hello world</h1>
+        </>
+
+    )
+
+    //2. Component
+    function Welcome() {
+        return <h1>Welcome</h1>
+    }
+
+    // 3. dynamic Component with props
+    // -  props are the object
+    function SayHello(props) {
+        return (
+            <>
+                <h1 style={{ color: "red" }}>hello {props.name}</h1>
+            </>
+        )
+    }
+    // - Access child -
+    function getChild(props) {
+        return (
+            <>
+                <h1 style={{ color: "red" }}>hello {props.child}</h1>
+            </>
+        )
+    }
+    // passing destructured obj-  props 
+    function UserInfo({ name, age, city }) {
+        return (
+            <div style={{ margin: "auto" }}>
+                <h3>👤UserName: {name}</h3>
+                <h3>🔞Age: {age}</h3>
+                <h3>🌎UserCity: {city}</h3>
+
+            </div>
+        )
+    }
+
+    // dynamic button - reuseable
+    function ButtonComponent({ label, onClick }) {
+        return <button onClick={onClick}>{label}</button>
+    }
+
+    function login() {
+        alert("User login success")
+    }
+
+    function logout() {
+        alert("User logout success")
+
+    }
+
+    
+
+
+    // nesting component
+    function App() {
+        return (
+            <>
+                {/* to use js in inside jsx we have to use {} */}
+                {/*   <Welcome />
+                <SayHello name="Rohit" />
+                <SayHello name="Ramu kaka" />
+                <getChild> child</getChild>
+                <UserInfo name="coehlo pawlo" age={50} city="New York" />
+                <ButtonComponent onClick={login} label="Login" />
+                <ButtonComponent onClick={logout} label="Logout" />
+*/ }
+             
+             
+
+            </>
+        )
+    }
+
+
+
+
+
+
+
+    // where i want to load react
+    let root = ReactDOM.createRoot(document.getElementById("root"))
+    // root.render(Welcome());  one way to call
+    //  root.render(<Welcome/>)     2nd way
+    //root.render(<Welcome></Welcome>) 3rd way
+
+    root.render(<App />)
+
+</script>
