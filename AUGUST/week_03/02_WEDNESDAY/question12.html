@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+</head>
+
+<body>
+    <div id="root">Hello js</div>
+
+</body>
+
+</html>
+<script type="text/babel">
+
+    function Card(product) {
+
+        return (
+            <>
+                <div style={{
+                    height: '300px',
+                    width: '200px',
+                    boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+                    textAlign: 'center'
+                }}>
+                    <h1>{product.title}</h1>
+                    <p style={{ marginTop: '200px' }}>{product.price}</p>
+                </div>
+
+            </>
+        )
+    }
+
+    function App() {
+        return (
+            <>
+                <Card title="👕T-shirt" price="$20" />
+                <Card title="👖Jeans" price="$50" />
+                <Card title="🎽Shirt" price="$30" />
+            </>
+        )
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root")).render(<App />)
+</script>

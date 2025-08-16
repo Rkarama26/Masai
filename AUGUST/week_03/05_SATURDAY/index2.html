@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+
+<body>
+    <div id="root">Hello form dom</div>
+</body>
+
+</html>
+<script type="text/babel">
+    const { useState } = React;
+
+    function GetData() {
+        const [data, setdata] = useState([]); // intial value
+
+        async function fetchData() {
+            try {
+                const res = await axios.get(`https://jsonplaceholder.typicode.com/posts`)
+
+                // axios avoids this tasks --->
+                // const result = await res.json();
+                console.log(res)
+                setdata(res.data)
+
+
+
+            } catch (error) {
+                console.error(error)
+            }
+        }
+
+        return (
+            <>
+                <div className="mx-auto">
+                    <h1>React Axios API</h1>
+                    <button className=" px-2 py-2 bg-blue-500 text-white rounded-lg hover:bg-white-600" onClick={fetchData}>
+                        fetchData
+                    </button>
+                    <ul>
+                        {data.map((item, index) => (
+                            <li key={index}>
+                                <h2> <span className="text-red-600">Title:</span> {item.title}</h2>
+                                <p> Content: {item.body}</p>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </>
+        )
+    }
+
+    function PostData() {
+        const [movies, setMovies] = useState([]);
+        const [movieName, setMovieName] = useState("");
+
+        // Fetch movies from Firebase
+        async function fetchReq() {
+            try {
+                const res = await axios.get(
+                    "https://movie-ae558-default-rtdb.asia-southeast1.firebasedatabase.app/movies.json"
+                );
+                // by using axio no need to convert in json
+                const result = res.data;
+
+                if (!result) {
+                    setMovies([]);
+                    return;
+                }
+
+                const movieArray = Object.entries(result).map(([id, movie]) => ({
+                    id,
+                    ...movie,
+                }));
+
+                setMovies(movieArray);
+            } catch (error) {
+                console.error("Error fetching movies:", error);
+            }
+        }
+
+        // Add a new movie
+        async function addMovie() {
+            if (!movieName) return alert("Please enter a movie name");
+
+            try {
+                const res = await axios.post(
+                    "https://movie-ae558-default-rtdb.asia-southeast1.firebasedatabase.app/movies.json",
+                    { title: movieName }
+                );
+                console.log("post req: " ,res)
+
+                setMovieName(""); // clear input
+                fetchReq(); // refresh list
+            } catch (error) {
+                console.error("Error adding movie:", error);
+            }
+        }
+
+        return (
+            <>
+                <h1>Post Request</h1>
+                <input
+                    type="text"
+                    placeholder="Enter movie name"
+                    value={movieName}
+                    onChange={(e) => setMovieName(e.target.value)}
+                />
+                <button onClick={addMovie}>Add Movie</button>
+                <button onClick={fetchReq}>Fetch Movies</button>
+
+                <ul>
+                    {movies.map((item) => (
+                        <li key={item.id}>{item.title}</li>
+                    ))}
+                </ul>
+            </>
+        );
+    }
+
+
+
+
+    function App() {
+        return (
+            <>
+                <GetData />
+                <PostData />
+
+            </>
+        )
+    }
+
+    let root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />)
+</script>

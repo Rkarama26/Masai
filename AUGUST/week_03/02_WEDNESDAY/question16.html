@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>React Tailwind Example</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-100">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    function ProductCard({ name, price, image, discount }) {
+      return (
+        <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm mx-auto relative mt-6">
+          {discount > 0 && (
+            <span className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+              -{discount}%
+            </span>
+          )}
+          <img className="p-8 rounded-t-lg" src={image} alt={name} />
+          <div className="px-5 pb-5">
+            <h5 className="text-xl font-semibold tracking-tight text-gray-900">{name}</h5>
+            <div className="flex items-center justify-between mt-3">
+              <span className="text-2xl font-bold text-gray-900">${price}</span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      const [formData, setFormData] = useState({ name: "", price: "", image: "", discount: "" });
+      const [error, setError] = useState({});
+      const [product, setProduct] = useState(null);
+
+      const validate = () => {
+        let errors = {};
+        if (!formData.name.trim()) errors.name = "Name is required";
+        if (!formData.price || isNaN(formData.price) || formData.price <= 0)
+          errors.price = "Price must be a positive number";
+        if (!formData.image.startsWith("http"))
+          errors.image = "Image must be a valid URL";
+        if (formData.discount && (isNaN(formData.discount) || formData.discount < 0 || formData.discount > 100))
+          errors.discount = "Discount must be between 0 and 100";
+        return errors;
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        const errors = validate();
+        setError(errors);
+
+        if (Object.keys(errors).length === 0) {
+          setProduct({
+            name: formData.name,
+            price: parseFloat(formData.price),
+            image: formData.image,
+            discount: formData.discount ? parseInt(formData.discount) : 0,
+          });
+          setFormData({ name: "", price: "", image: "", discount: "" });
+        }
+      };
+
+      return (
+        <div className="p-6">
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="mb-10 max-w-sm mx-auto bg-white p-6 rounded-lg shadow-md">
+            <div className="mb-5">
+              <label className="block mb-2 text-sm font-medium text-gray-900">Name</label>
+              <input
+                type="text"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                placeholder="Enter Item Name"
+              />
+              {error.name && <p className="text-red-500 text-sm mt-1">{error.name}</p>}
+            </div>
+            <div className="mb-5">
+              <label className="block mb-2 text-sm font-medium text-gray-900">Price</label>
+              <input
+                type="number"
+                value={formData.price}
+                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                placeholder="Enter Price"
+              />
+              {error.price && <p className="text-red-500 text-sm mt-1">{error.price}</p>}
+            </div>
+            <div className="mb-5">
+              <label className="block mb-2 text-sm font-medium text-gray-900">Image URL</label>
+              <input
+                type="url"
+                value={formData.image}
+                onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                placeholder="https://example.com/product.jpg"
+              />
+              {error.image && <p className="text-red-500 text-sm mt-1">{error.image}</p>}
+            </div>
+            <div className="mb-5">
+              <label className="block mb-2 text-sm font-medium text-gray-900">Discount (%)</label>
+              <input
+                type="number"
+                value={formData.discount}
+                onChange={(e) => setFormData({ ...formData, discount: e.target.value })}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                placeholder="0 - 100"
+              />
+              {error.discount && <p className="text-red-500 text-sm mt-1">{error.discount}</p>}
+            </div>
+            <button
+              type="submit"
+              className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 w-full"
+            >
+              Add new item
+            </button>
+          </form>
+
+          {/* Product card */}
+          {product && <ProductCard {...product} />}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>

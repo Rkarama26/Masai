@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+</head>
+
+<body>
+    <div id="root">Hello js</div>
+
+</body>
+
+</html>
+<script type="text/babel">
+
+    function HeaderComponent() {
+        return (
+            <>
+                <div style={{
+
+                    height: '100px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    marginBottom: '70px'
+                }}>
+                    <div style={{
+                        marginLeft: '100px'
+                    }}>
+                        <h2>The Right Plan For</h2>
+                        <h2 style={{
+                            color: '#a07bef',
+                            marginTop: '-10px',
+                            marginLeft: '20px'
+                        }}>Your Bussiness
+                        </h2>
+                    </div>
+                    <div style={{
+                        width: '700px',
+                        textAlign: 'right',
+                        marginRight: '20px',
+                        fontWeight: 800
+                    }}>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, odit error quas est officiis voluptatum suscipit, modi magnam voluptate asperiores voluptatibus deserunt, eaque laudantium sit. Beatae dignissimos obcaecati fugiat consequatur.</p>
+                    </div>
+
+                </div>
+            </>
+        )
+    }
+
+
+    function Card({ data }) {
+
+        return (
+            <>
+                <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                    <div>
+                        <h2>{data.title}</h2>
+                    </div>
+                    <div>
+                        <ul style={{ listStyle: 'none' }}>
+                            <li>✅Lorem ipsum dolor sit.</li>
+                            <li>✅Lorem ipsum dolor sit.</li>
+                            <li>✅Lorem ipsum dolor sit.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h1>{data.price}</h1>
+                    </div>
+                    <div>
+                        <button className="btn"
+                        >Get Started</button>
+                    </div>
+                </div>
+            </>
+        )
+    }
+
+    function App() {
+        return (
+            <>
+                <HeaderComponent />
+                <Card data={{ title: "Starter", price: "Free" }} />
+                <Card data={{ title: "Pro", price: "$30" }} />
+                <Card data={{ title: "Plus", price: "$70" }} />
+            </>
+        )
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root")).render(<App />)
+</script>
+
+<style>
+    .btn {
+        margin-top: 25px;
+        width: 90px;
+        height: 30px;
+        color: #a07bef;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        background-color: #c0bbcb;
+    }
+
+    .btn:hover {
+        color: aliceblue;
+        background-color: #a07bef;
+    }
+</style>

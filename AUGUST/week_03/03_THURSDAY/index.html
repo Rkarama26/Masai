@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+</head>
+
+<body>
+
+    <div id="root">
+
+    </div>
+</body>
+
+</html>
+<script type="text/babel">
+
+    // how react work 
+
+    /* 
+    1. Render Phase : Function called the changes are made to the component(change detection or noted)
+    2. commit phase : Changes are applied to the DOM
+    */
+    /*
+        function App() {
+            //1. useState - a React Hook that lets you add state to functional components
+            const { useState } = React;
+            const [count, setCount] = useState(0)
+    
+            //1.1
+            //it should update the count by +2
+            function increaseCount() {
+                setCount(count + 1);
+                setCount(count + 1);
+                // but it will be updates by 1
+    
+                // it will re-render page in batch
+                // if there are multiple state updates, React batches them for performance - react Optimization
+            }
+            // this can be done by a callback
+            function increaseCount2() {
+                setCount(prevCount => prevCount + 1);
+                setCount(prevCount => prevCount + 1);
+                setCount(prevCount => prevCount + 1);
+                // instead of batch updating it complete one function first
+            }
+            return (
+                <>
+                    <h1>{count}</h1>
+                    <button onClick={increaseCount}>Increase by 1</button>
+                    <button onClick={increaseCount2}>Increase by 3</button>
+                </>
+            )
+        }
+    */
+
+
+    // useState can hold multiple values
+    function UserProfile() {
+        const { useState } = React;
+
+        const [user, setUser] = useState({ name: "John Doe", age: 79 });
+        function updateAge() {
+            setUser({ ...user, age: user.age + 1 })
+        }
+
+
+        return (
+            <>
+                <h1>{user.name} is {user.age} old</h1>
+                <button onClick={updateAge}>increase</button>
+
+            </>
+        )
+    }
+
+    function App2() {
+        return (
+            <>
+                <h1>React App2</h1>
+                <UserProfile />
+            </>
+        )
+    }
+
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App2 />);
+
+</script>

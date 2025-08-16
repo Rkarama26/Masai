@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>React Tailwind Example</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-100">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    // UserCard Component
+    function UserCard({ user }) {
+      return (
+        <div className="border border-gray-300 bg-white p-4 rounded-lg mb-3 shadow-sm">
+          <h3 className="text-lg font-semibold">{user.name}</h3>
+          <p className="text-gray-600">Email: {user.email}</p>
+          <p className="text-gray-600">Age: {user.age}</p>
+        </div>
+      );
+    }
+
+    // UserList Component
+    function UserList({ initialUsers }) {
+      const [users, setUsers] = useState(initialUsers);
+      const [formData, setFormData] = useState({ name: "", email: "", age: "" });
+      const [errors, setErrors] = useState({});
+
+      // Validation function
+      const validate = () => {
+        let newErrors = {};
+        if (!formData.name.trim()) {
+          newErrors.name = "Name cannot be empty.";
+        }
+        if (!/\S+@\S+\.\S+/.test(formData.email)) {
+          newErrors.email = "Invalid email format.";
+        }
+        if (!formData.age || isNaN(formData.age) || formData.age <= 0) {
+          newErrors.age = "Age must be a positive number.";
+        }
+        return newErrors;
+      };
+
+      const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        const validationErrors = validate();
+        if (Object.keys(validationErrors).length === 0) {
+          const newUser = {
+            name: formData.name,
+            email: formData.email,
+            age: parseInt(formData.age, 10),
+          };
+          setUsers([...users, newUser]);
+          setFormData({ name: "", email: "", age: "" });
+          setErrors({});
+        } else {
+          setErrors(validationErrors);
+        }
+      };
+
+      return (
+        <div className="max-w-md mx-auto bg-gray-50 p-6 rounded-lg shadow-md">
+          <h2 className="text-2xl font-bold mb-4">User List</h2>
+
+          {/* Add User Form */}
+          <form onSubmit={handleSubmit} className="mb-6 space-y-4">
+            <div>
+              <label className="block font-medium">Name:</label>
+              <input
+                type="text"
+                name="name"
+                className="w-full p-2 border border-gray-300 rounded-lg"
+                value={formData.name}
+                onChange={handleChange}
+              />
+              {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+            </div>
+
+            <div>
+              <label className="block font-medium">Email:</label>
+              <input
+                type="text"
+                name="email"
+                className="w-full p-2 border border-gray-300 rounded-lg"
+                value={formData.email}
+                onChange={handleChange}
+              />
+              {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+            </div>
+
+            <div>
+              <label className="block font-medium">Age:</label>
+              <input
+                type="number"
+                name="age"
+                className="w-full p-2 border border-gray-300 rounded-lg"
+                value={formData.age}
+                onChange={handleChange}
+              />
+              {errors.age && <p className="text-red-500 text-sm">{errors.age}</p>}
+            </div>
+
+            <button
+              type="submit"
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            >
+              Add User
+            </button>
+          </form>
+
+          {/* User Cards */}
+          {users.map((user, index) => (
+            <UserCard key={index} user={user} />
+          ))}
+        </div>
+      );
+    }
+
+    // App Component
+    function App() {
+      const initialUsers = [
+        { name: "Aarav Sharma", email: "aarav@example.com", age: 22 },
+        { name: "Isha Patel", email: "isha@example.com", age: 25 },
+      ];
+      return <UserList initialUsers={initialUsers} />;
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>

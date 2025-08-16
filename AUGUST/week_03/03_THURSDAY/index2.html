@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+</head>
+
+<body>
+    <div id="root">hello dom</div>
+</body>
+
+</html>
+
+<script type="text/babel">
+    const { useState } = React;
+
+    // full form
+    function CompleteForm() {
+        const [formData, setFormData] = useState({
+            name: "",
+            password: "",
+            gender: "",
+            comments: ""
+        });
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            console.log("Form submitted:", formData);
+            alert(`Submitted: ${JSON.stringify(formData, null, 2)}`);
+            setFormData({
+                name: "",
+                password: "",
+                gender: "",
+                comments: ""
+            });
+        }
+
+        function handleChange(e) {
+            const { name, value } = e.target;
+            setFormData({ ...formData, [name]: value });
+        }
+
+        return (
+            <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
+                <div className="-5">
+                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-text-white">Name</label>
+                    <input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="mb-5">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-text-white" htmlFor="password">Password</label>
+                    <input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                        type="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                    />
+                </div>
+
+                <div className="mb-5">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-text-white" htmlFor="gender">Gender</label>
+                    <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                        name="gender"
+                        value={formData.gender}
+                        onChange={handleChange}
+                    >
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div className="mb-5">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-text-white" htmlFor="comments">Comments</label>
+                    <textarea className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                        name="comments"
+                        value={formData.comments}
+                        onChange={handleChange}
+                    ></textarea>
+                </div>
+
+
+                <div className="mb-5">
+                    <button
+                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+                        type="submit"
+                    >
+                        Submit</button>
+                </div>
+
+            </form>
+        );
+    }
+
+    // main App component
+    function App() {
+        return <CompleteForm />;
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+</script>
