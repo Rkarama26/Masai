@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Attendance Tracker</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 40px; }
+    .present { color: green; font-weight: bold; }
+    .absent { color: red; font-weight: bold; }
+    button { margin-left: 10px; padding: 4px 10px; }
+    select { margin: 10px; padding: 5px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    function AttendanceTracker() {
+      const [students, setStudents] = useState([
+        { id: 1, name: "Aarav", present: true },
+        { id: 2, name: "Ishita", present: false },
+        { id: 3, name: "Rohan", present: true },
+        { id: 4, name: "Priya", present: false },
+        { id: 5, name: "Kunal", present: true }
+      ]);
+
+      const [filter, setFilter] = useState("All");
+
+      const toggleAttendance = (id) => {
+        const updated = students.map((student) =>
+          student.id === id ? { ...student, present: !student.present } : student
+        );
+        setStudents(updated);
+      };
+
+      const presentCount = students.filter(s => s.present).length;
+
+      const filteredStudents = students.filter(student => {
+        if (filter === "All") return true;
+        if (filter === "Present") return student.present;
+        if (filter === "Absent") return !student.present;
+      });
+
+      return (
+        <div>
+          <h2>Student Attendance Tracker</h2>
+          <p>Total Present: {presentCount}</p>
+
+          <label>Filter: </label>
+          <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+            <option>All</option>
+            <option>Present</option>
+            <option>Absent</option>
+          </select>
+
+          <ul style={{ listStyle: "none", padding: 0 }}>
+            {filteredStudents.map(student => (
+              <li key={student.id}>
+                <span className={student.present ? "present" : "absent"}>
+                  {student.name} - {student.present ? "Present" : "Absent"}
+                </span>
+                <button onClick={() => toggleAttendance(student.id)}>Toggle</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<AttendanceTracker />);
+  </script>
+</body>
+</html>

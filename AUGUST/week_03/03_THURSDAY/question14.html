@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React Task List</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 40px; }
+    input { padding: 6px; font-size: 14px; }
+    button { margin: 5px; padding: 6px 12px; font-size: 14px; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 6px 0; }
+    .empty { color: gray; font-style: italic; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    function TaskList() {
+      const [tasks, setTasks] = useState(["Buy milk", "Study React"]);
+      const [input, setInput] = useState("");
+
+      const addTask = () => {
+        if (input.trim() === "") {
+          alert("Please enter a task");
+          return;
+        }
+        setTasks([...tasks, input]);
+        setInput("");
+      };
+
+      const clearAll = () => setTasks([]);
+
+      return (
+        <div>
+          <h2>My Task List</h2>
+
+          <input
+            type="text"
+            placeholder="Enter new task"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <button onClick={addTask}>Add Task</button>
+          <button onClick={clearAll}>Clear All</button>
+
+          {tasks.length === 0 ? (
+            <p className="empty">No tasks available.</p>
+          ) : (
+            <ul>
+              {tasks.map((task, i) => (
+                <li key={i}>{task}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<TaskList />);
+  </script>
+</body>
+</html>

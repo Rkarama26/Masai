@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Axios Fetch Example</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    function ProductFetcher() {
+      const [loading, setLoading] = React.useState(false);
+      const [error, setError] = React.useState(null);
+      const [products, setProducts] = React.useState([]);
+
+      const fetchProducts = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+          const response = await axios.get("https://fakestoreapi.com/products");
+          console.log("Fetched Data:", response.data); // ✅ log to console
+          setProducts(response.data);
+        } catch (err) {
+          setError("Failed to fetch products!");
+          console.error(err);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      return (
+        <div>
+          <button onClick={fetchProducts}>Fetch Products</button>
+
+          {loading && <p>Loading...</p>}
+          {error && <p style={{color:"red"}}>{error}</p>}
+
+          <ul>
+            {products.map((product) => (
+              <li key={product.id}>{product.title}</li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<ProductFetcher />);
+  </script>
+</body>
+</html>

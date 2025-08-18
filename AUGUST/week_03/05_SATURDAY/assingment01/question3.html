@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meme Gallery</title>
+  <!-- React + ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Babel for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .app {
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .light {
+      background: #f9f9f9;
+      color: #222;
+    }
+
+    .dark {
+      background: #1e1e1e;
+      color: #eee;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .controls input,
+    .controls select,
+    .controls button {
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+
+    .card {
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      background: inherit;
+      color: inherit;
+      text-align: center;
+    }
+
+    .card img {
+      max-width: 100%;
+      border-radius: 6px;
+    }
+
+    .spinner {
+      font-size: 18px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+    }
+
+    .theme-toggle {
+      cursor: pointer;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      background: #007bff;
+      color: white;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    const { useState } = React;
+
+    function MemeApp() {
+      const [memes, setMemes] = useState([]);
+      const [loading, setLoading] = useState(false);
+      const [error, setError] = useState(null);
+      const [search, setSearch] = useState("");
+      const [sort, setSort] = useState("");
+      const [filter, setFilter] = useState("");
+      const [theme, setTheme] = useState("light");
+
+      const loadMemes = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+          const res = await axios.get("https://api.imgflip.com/get_memes");
+          setMemes(res.data.data.memes);
+        } catch (err) {
+          setError("Failed to load memes.");
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      const filteredMemes = memes
+        .filter(meme =>
+          meme.name.toLowerCase().includes(search.toLowerCase())
+        )
+        .filter(meme => {
+          if (filter === "width") return meme.width > 500;
+          if (filter === "height") return meme.height > 500;
+          return true;
+        })
+        .sort((a, b) => {
+          if (sort === "name") return a.name.localeCompare(b.name);
+          if (sort === "width") return b.width - a.width;
+          return 0;
+        });
+
+      return (
+        <div className={`app ${theme}`}>
+          <div className="controls">
+            <button onClick={loadMemes}>Load Memes</button>
+            <input
+              type="text"
+              placeholder="Search memes..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <select value={sort} onChange={(e) => setSort(e.target.value)}>
+              <option value="">Sort By</option>
+              <option value="name">Name</option>
+              <option value="width">Width</option>
+            </select>
+            <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+              <option value="">All</option>
+              <option value="width">Width 500</option>
+              <option value="height">Height 500</option>
+            </select>
+            <button
+              className="theme-toggle"
+              onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+            >
+              Toggle {theme === "light" ? "Dark" : "Light"} Mode
+            </button>
+          </div>
+
+          {loading && <div className="spinner">Loading memes...</div>}
+          {error && <div className="error">{error}</div>}
+          {!loading && !error && filteredMemes.length === 0 && (
+            <div>No memes found.</div>
+          )}
+
+          <div className="grid">
+            {filteredMemes.map((meme) => (
+              <div key={meme.id} className="card">
+                <img src={meme.url} alt={meme.name} />
+                <h3>{meme.name}</h3>
+                <p>Width: {meme.width}, Height: {meme.height}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<MemeApp />);
+  </script>
+</body>
+
+</html>
