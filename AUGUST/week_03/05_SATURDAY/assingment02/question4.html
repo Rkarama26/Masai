@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AutoCorrect App</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- React & ReactDOM -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- Babel -->
+  <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    function AutoCorrectApp() {
+      const [inputText, setInputText] = React.useState("");
+
+      const corrections = {
+        "teh": "the",
+        "recieve": "receive",
+        "adress": "address",
+        "wierd": "weird",
+        "thier": "their"
+      };
+
+      // Apply autocorrections
+      const correctedText = inputText
+        .split(" ")
+        .map(word => corrections[word] || word)
+        .join(" ");
+
+      return (
+        <div className="bg-white shadow-lg rounded-2xl p-6 w-full max-w-lg">
+          <h1 className="text-2xl font-bold text-gray-800 mb-4 text-center">
+            AutoCorrect App
+          </h1>
+
+          <textarea
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            placeholder="Type a sentence with mistakes..."
+            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+            rows="4"
+          ></textarea>
+
+          <div className="bg-gray-50 border rounded-lg p-3">
+            <h2 className="text-lg font-semibold text-gray-700 mb-2">Preview:</h2>
+            <p className="text-gray-800">{correctedText}</p>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<AutoCorrectApp />);
+  </script>
+</body>
+</html>
