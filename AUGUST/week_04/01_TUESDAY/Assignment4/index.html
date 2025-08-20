@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>React Timer with Sound</title>
+  <!-- React + ReactDOM from CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Babel for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    function TimerApp() {
+      const [seconds, setSeconds] = useState(0);
+      const [isRunning, setIsRunning] = useState(false);
+      const intervalRef = useRef(null);
+
+      // Effect to handle timer
+      useEffect(() => {
+        if (isRunning) {
+          intervalRef.current = setInterval(() => {
+            setSeconds((prev) => prev + 1);
+          }, 1000);
+        }
+        // Cleanup
+        return () => clearInterval(intervalRef.current);
+      }, [isRunning]);
+
+      // Effect to play sound / log when 10 seconds reached
+      useEffect(() => {
+        if (seconds === 10) {
+          // Example: Play a sound
+          const audio = new Audio("https://www.soundjay.com/buttons/sounds/beep-07.mp3");
+          audio.play().catch(() => console.log("🔔 Timer reached 10s!"));
+        }
+      }, [seconds]);
+
+      const handleStart = () => {
+        if (!isRunning) {
+          setIsRunning(true);
+        }
+      };
+
+      const handleStop = () => {
+        setIsRunning(false);
+        clearInterval(intervalRef.current);
+      };
+
+      return (
+        <div style={{ textAlign: "center", marginTop: "50px", fontFamily: "Arial" }}>
+          <h1>Elapsed Time: {seconds}s</h1>
+          <button onClick={handleStart} style={{ marginRight: "10px", padding: "10px" }}>
+            Start
+          </button>
+          <button onClick={handleStop} style={{ padding: "10px" }}>
+            Stop
+          </button>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<TimerApp />);
+  </script>
+</body>
+</html>
