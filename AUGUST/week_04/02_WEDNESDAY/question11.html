@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+</head>
+
+<body>
+    <div id="root">
+        hello dom
+    </div>
+</body>
+
+</html>
+<script type="text/babel">
+    const { useState, useContext, createContext } = React;
+
+
+    //1.  creating context
+    const ThemeContext = React.createContext();
+
+
+    // creating Provider
+    function ThemeProvider({ children }) {
+        const [theme, settheme] = useState("dark");
+
+        function toggleTheme() {
+            settheme((prev) => (prev == "dark" ? "light" : "dark"));
+        }
+
+        return (
+            <ThemeContext.Provider value={{ theme, toggleTheme }}>
+                {children}
+            </ThemeContext.Provider>
+        )
+    }
+
+
+
+    function Child() {
+
+        const { theme } = React.useContext(ThemeContext)
+
+        const style = {
+            margin: "auto",
+            height: "400px",
+            width: "400px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            border: "2px solid red",
+            color: theme === "light" ? "black" : "white",
+            backgroundColor: theme === "light" ? "white" : "black"
+        }
+        return (
+            <div style={style}>
+                <h2>Child Component Theme - {theme}</h2>
+            </div>
+        )
+    }
+
+
+    function App() {
+
+        const { theme, toggleTheme } = React.useContext(ThemeContext);
+        return (
+            <>
+                <div>
+                    <h1>React context api </h1>
+                    <button onClick={toggleTheme}
+                     >Switch to {theme === "light" ? "Dark" : "Light"}</button>
+                </div>
+
+                <Child />
+            </>
+        )
+
+    }
+    const root = ReactDOM.createRoot(document.getElementById("root")).render(
+        <ThemeProvider>
+            <App />
+        </ThemeProvider>
+    )
+
+</script>
