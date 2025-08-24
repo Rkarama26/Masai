@@ -1,4 +1,4 @@
-name: Deploy Multiple Apps
+name: Deploy Dashboard App
 
 on:
   push:
@@ -8,9 +8,6 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        app: [dashboard]  # Add app folder names here
 
     steps:
       - name: Checkout repository
@@ -23,17 +20,17 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd ${{ matrix.app }}
+          cd AUGUST/week_04/02_WEDNESDAY/dashboard
           npm install
 
       - name: Build app
         run: |
-          cd ${{ matrix.app }}
+          cd AUGUST/week_04/02_WEDNESDAY/dashboard
           npm run build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ${{ matrix.app }}/dist
-          destination_dir: ${{ matrix.app }}
+          publish_dir: AUGUST/week_04/02_WEDNESDAY/dashboard/dist
+          destination_dir: dashboard
