@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>useRef Focus Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      outline: none;
+    }
+    button {
+      margin-left: 10px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background: #007bff;
+      color: white;
+    }
+    p {
+      margin-top: 10px;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h1>Focus Input with useRef</h1>
+  <div id="root"></div>
+
+  <!-- React + ReactDOM + Babel -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  <script type="text/babel">
+    const { useRef, useState } = React;
+
+    function App() {
+      const inputRef = useRef(null);
+      const [focused, setFocused] = useState(false);
+
+      const handleFocus = () => {
+        if (inputRef.current) {
+          inputRef.current.focus();
+          inputRef.current.style.backgroundColor = "#ffffcc"; // light yellow
+          setFocused(true);
+        }
+      };
+
+      return (
+        <div>
+          <input ref={inputRef} type="text" placeholder="Click the button to focus" />
+          <button onClick={handleFocus}>Focus Input</button>
+          {focused && <p>Focused!</p>}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
