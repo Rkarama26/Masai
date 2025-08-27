@@ -1,12 +1,15 @@
-# React + Vite
+## Todo App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+In this project, I built a Todo application using React. The app allows users to add, remove, and mark tasks as complete.
 
-Currently, two official plugins are available:
+## useState
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+In this app, I used the `useState` hook to manage the state of the todo list. This hook allows me to add new todos, remove existing ones, and toggle their completion status.
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## useReducer
+
+In this app, I also explored the `useReducer` hook for managing complex state logic. This hook is particularly useful when the state transitions involve multiple sub-values or when the next state depends on the previous one.
+
+
+useReducer is an alternative to `useState` that provides a more structured way to handle state updates through actions and reducers. It keeps things organized and makes it easier to manage complex state logic.
