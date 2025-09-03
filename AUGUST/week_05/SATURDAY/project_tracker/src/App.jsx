@@ -22,10 +22,10 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            // <PrivateRoute>
-            // </PrivateRoute>
-            <Dashboard />
-            
+            <PrivateRoute>
+              <Dashboard /> 
+            </PrivateRoute>
+
           } />
 
 
