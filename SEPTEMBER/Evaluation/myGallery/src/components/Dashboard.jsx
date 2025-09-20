@@ -17,7 +17,6 @@ export default function
     return (
         
         <div className="flex h-screen">
-        <span>For now i added Dashboard as default path so the images can be shown on dashboard</span>
             {/* Sidebar */}
             <aside
                 className={`fixed md:static inset-y-0 left-0 bg-white shadow-lg transform transition-transform duration-300 w-64 z-50 

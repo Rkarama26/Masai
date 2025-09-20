@@ -26,7 +26,7 @@ function App() {
 
           } />
         {/* default path */}
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<Login />} />
 
       </Routes>
     </>
