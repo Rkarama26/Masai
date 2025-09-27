@@ -1,0 +1,16 @@
+{
+    "courses": [
+        {
+            "id": 1,
+            "titile": "Intro to backend",
+            "instruction": "Alice",
+            "duration": "10"
+        },
+        {
+            "id": 2,
+            "titile": "Intro to frontend",
+            "instruction": "Bob",
+            "duration": "20"
+        }
+    ]
+}
