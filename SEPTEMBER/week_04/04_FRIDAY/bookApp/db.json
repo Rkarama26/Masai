@@ -1,0 +1,24 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "title": "The Great Gatsby",
+      "author": "F. Scott Fitzgerald",
+      "genre": "Fiction",
+      "publishedYear": 1925,
+      "status": "available",
+      "borrowedBy": null,
+      "borrowedDate": null
+    },
+    {
+      "id": 2,
+      "title": "Brief Answers to the Big Questions",
+      "author": "Stephen Hawking",
+      "genre": "Science",
+      "publishedYear": 2018,
+      "status": "available",
+      "borrowedBy": null,
+      "borrowedDate": null
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "tickets": [
+    {
+      "id": 1,
+      "title": "logger Issue",
+      "description": "Unable to log",
+      "priority": "high",
+      "user": "John Doe",
+      "status": "pending"
+    }
+  ]
+}
