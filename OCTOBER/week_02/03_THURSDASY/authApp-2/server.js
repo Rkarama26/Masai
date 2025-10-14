@@ -4,6 +4,7 @@ const userRouter = require('./routes/user.routes');
 const dishRouter = require('./routes/dish.routes');
 const orderRouter = require('./routes/order.routes');
 require("dotenv").config();
+const swaggerSetup = require('./configs/swagger');
 
 const app = express();
 app.use(express.json())
@@ -14,6 +15,8 @@ connectToDB()
 app.use("/user", userRouter);
 app.use("/dish", dishRouter);
 app.use("/order", orderRouter);
+
+swaggerSetup(app);
 
 
 app.get("/test", (req, res) => {

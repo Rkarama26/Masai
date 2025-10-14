@@ -14,6 +14,51 @@ const sendMail = require("../utils/mailer");
 let refreshTokens = [];
 
 // SIGNUP 
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: User management and authentication
+ */
+
+/**
+ * @swagger
+ * /user/signup:
+ *   post:
+ *     summary: Signup a new user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - username
+ *               - email
+ *               - password
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 example: Rohit
+ *               email:
+ *                 type: string
+ *                 example: rohit@example.com
+ *               password:
+ *                 type: string
+ *                 example: mypassword
+ *               role:
+ *                 type: string
+ *                 example: user
+ *     responses:
+ *       201:
+ *         description: Signup success
+ *       400:
+ *         description: Invalid role
+ *       500:
+ *         description: Server error
+ */
+
 userRouter.post("/signup", (req, res) => {
     try {
         const { username, email, password, role } = req.body;
@@ -40,7 +85,37 @@ userRouter.post("/signup", (req, res) => {
     }
 });
 
-//  LOGIN 
+/**
+ * @swagger
+ * /user/login:
+ *   post:
+ *     summary: Login a user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: rohit@example.com
+ *               password:
+ *                 type: string
+ *                 example: mypassword
+ *     responses:
+ *       200:
+ *         description: Login success with access & refresh tokens
+ *       403:
+ *         description: Wrong password
+ *       404:
+ *         description: User not found
+ */
+
 userRouter.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -78,7 +153,45 @@ userRouter.post("/login", async (req, res) => {
     }
 });
 
-// REFRESH TOKEN 
+/**
+ * @swagger
+ * /user/refresh:
+ *   post:
+ *     summary: Refresh access token using a valid refresh token
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - refreshToken
+ *             properties:
+ *               refreshToken:
+ *                 type: string
+ *                 example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+ *     responses:
+ *       200:
+ *         description: New access token issued
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: New access token issued
+ *                 accessToken:
+ *                   type: string
+ *       401:
+ *         description: Refresh token required
+ *       403:
+ *         description: Invalid refresh token
+ *       404:
+ *         description: User not found
+ */
+
 userRouter.post("/refresh", async (req, res) => {
     const { refreshToken } = req.body;
     if (!refreshToken) return res.status(401).json({ message: "Refresh token required" });
@@ -109,14 +222,68 @@ userRouter.post("/refresh", async (req, res) => {
     }
 });
 
-// LOGOUT 
+/**
+ * @swagger
+ * /user/logout:
+ *   post:
+ *     summary: Logout a user and remove refresh token
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - refreshToken
+ *             properties:
+ *               refreshToken:
+ *                 type: string
+ *                 example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+ *     responses:
+ *       200:
+ *         description: Successfully logged out
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Logged out successfully
+ */
+
 userRouter.post("/logout", (req, res) => {
     const { refreshToken } = req.body;
     refreshTokens = refreshTokens.filter(token => token !== refreshToken);
     res.json({ message: "Logged out successfully" });
 });
 
-//  FORGET PASSWORD 
+/**
+ * @swagger
+ * /user/forget-password:
+ *   post:
+ *     summary: Send password reset link
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: rohit@example.com
+ *     responses:
+ *       200:
+ *         description: Reset link sent
+ *       404:
+ *         description: User not found
+ */
+
 userRouter.post("/forget-password", async (req, res) => {
     try {
         const { email } = req.body;
