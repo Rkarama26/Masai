@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        .container {
+            background: #fff;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            overflow: hidden;
+            padding: 20px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2575fc;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 2px solid #2575fc;
+            border-radius: 8px;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #2575fc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: #1b5edb;
+        }
+
+        #registerDiv, #chatUI {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .show { display: block !important; }
+
+        #chatUI {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #onlineUsersList {
+            list-style: none;
+            background: #f0f3ff;
+            border-radius: 8px;
+            padding: 10px;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        #onlineUsersList li {
+            padding: 6px;
+            margin: 4px 0;
+            border-radius: 5px;
+            background: #e5e9ff;
+            font-weight: 500;
+        }
+
+        #chat_Message_Div {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            height: 250px;
+            overflow-y: auto;
+        }
+
+        .chat-message {
+            padding: 8px 10px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            background: #e7f0ff;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            word-break: break-word;
+        }
+
+        .chat-message:nth-child(even) {
+            background: #f0f7ff;
+        }
+
+        .username {
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 3px 6px;
+            color: white;
+        }
+
+        .message-text {
+            flex: 1;
+        }
+
+        .message-box {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .message-box input {
+            flex: 1;
+        }
+
+        #adminDiv {
+            background: #fff4e5;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ffd699;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="user">Welcome to Chat Application</h1>
+
+        <div id="registerDiv" class="show">
+            <input id="userName" placeholder="Enter Username">
+            <button id="registerUserBtn">Join Chat</button>
+        </div>
+
+        <div id="chatUI">
+            <h3>👥 Online Users</h3>
+            <ul id="onlineUsersList"></ul>
+
+            <div class="message-box">
+                <input id="sendMessageTag" type="text" placeholder="Enter Message">
+                <button id="sendMessageBtn">Send</button>
+            </div>
+
+            <div id="adminDiv" class="hide">
+                <input id="adminMessage" type="text" placeholder="Admin Message">
+                <button id="sendAdminMessageBtn">Send as Admin</button>
+            </div>
+
+            <button id="disconnectBtn"> Disconnect</button>
+
+            <h3> Chat Messages</h3>
+            <div id="chat_Message_Div"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { io } from "https://cdn.socket.io/4.8.1/socket.io.esm.min.js";
+
+        const socket = io("http://localhost:3000");
+        let userName = localStorage.getItem("userName") || null;
+
+        const userH1 = document.getElementById("user");
+        const registerDiv = document.getElementById("registerDiv");
+        const chatUI = document.getElementById("chatUI");
+        const onlineUsersList = document.getElementById("onlineUsersList");
+        const adminDiv = document.getElementById("adminDiv");
+
+        const userColors = [
+            "#e74c3c", "#3498db", "#2ecc71", "#f1c40f",
+            "#9b59b6", "#1abc9c", "#e67e22", "#16a085",
+            "#8e44ad", "#c0392b", "#27ae60", "#d35400"
+        ];
+
+        function getUserColor(username) {
+            let hash = 0;
+            for (let i = 0; i < username.length; i++) {
+                hash = username.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const index = Math.abs(hash % userColors.length);
+            return userColors[index];
+        }
+
+        if (userName) {
+            showChatUI(userName);
+        }
+
+        document.getElementById("registerUserBtn").addEventListener('click', () => {
+            userName = document.getElementById("userName").value.trim();
+            if (!userName) return alert("Please enter a username.");
+            localStorage.setItem("userName", userName);
+            showChatUI(userName);
+        });
+
+        document.getElementById("sendMessageBtn").addEventListener('click', () => {
+            const msg = document.getElementById("sendMessageTag").value.trim();
+            if (msg) {
+                socket.emit("sendMessage", msg);
+                document.getElementById("sendMessageTag").value = "";
+            }
+        });
+
+        document.getElementById("sendAdminMessageBtn").addEventListener('click', () => {
+            const msg = document.getElementById("adminMessage").value.trim();
+            if (msg) {
+                socket.emit("adminMessage", msg);
+                document.getElementById("adminMessage").value = "";
+            }
+        });
+
+        document.getElementById("disconnectBtn").addEventListener('click', () => {
+            localStorage.removeItem("userName");
+            socket.emit("manualDisconnect");
+            location.reload();
+        });
+
+        socket.on("chat_History", (chatArray) => appendChatIntoUI(chatArray));
+        socket.on("onlineUsers", (users) => updateOnlineUsers(users));
+
+        function showChatUI(name) {
+            registerDiv.classList.remove("show");
+            registerDiv.style.display = "none";
+            chatUI.classList.add("show");
+            userH1.textContent = `👋 Hi, ${name}`;
+            socket.emit("registerUser", name);
+            if (name.toLowerCase() === "admin") adminDiv.classList.remove("hide");
+        }
+
+        function updateOnlineUsers(users) {
+            onlineUsersList.innerHTML = "";
+            users.forEach(user => {
+                const li = document.createElement("li");
+                li.textContent = user;
+                li.style.color = getUserColor(user);
+                onlineUsersList.appendChild(li);
+            });
+        }
+
+        function appendChatIntoUI(chatArray) {
+            const chatDiv = document.getElementById("chat_Message_Div");
+            chatDiv.innerHTML = "";
+            chatArray.forEach(chat => {
+                const div = document.createElement("div");
+                div.classList.add("chat-message");
+
+                const usernameSpan = document.createElement("span");
+                usernameSpan.classList.add("username");
+                usernameSpan.style.backgroundColor = getUserColor(chat.from);
+                usernameSpan.textContent = chat.from;
+
+                const messageSpan = document.createElement("span");
+                messageSpan.classList.add("message-text");
+                messageSpan.textContent = chat.message;
+
+                div.appendChild(usernameSpan);
+                div.appendChild(messageSpan);
+                chatDiv.appendChild(div);
+                chatDiv.scrollTop = chatDiv.scrollHeight;
+            });
+        }
+    </script>
+</body>
+</html>
