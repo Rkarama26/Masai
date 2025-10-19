@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.19.1"
+  },
+  "scripts": {
+    "server": "nodemon server.js",
+    "pretest": "node -e \"require('fs').mkdirSync('test-report', { recursive: true })\"",
+    "test:report": "npm run pretest && npm test",
+    "test": "jest --config=jest.config.cjs"
+  },
+  "name": "authapp-1",
+  "version": "1.0.0",
+  "main": "server.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "jest": "^30.2.0",
+    "jest-html-reporter": "^4.3.0",
+    "supertest": "^7.1.4"
+  }
+}
