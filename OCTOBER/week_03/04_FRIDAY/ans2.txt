@@ -1,0 +1,204 @@
+
+    "prompt1.md": """# Prompt 1: Zero-Shot — Travel Itinerary Creation
+
+**Scenario:** You're planning a 7-day trip to Singapore and Malaysia, preferring Indian cuisine and budget-friendly options.
+
+**Prompt:**  
+"Create a 7-day travel itinerary for a trip covering Singapore and Malaysia with a focus on Indian cuisine and budget-friendly accommodations. Include top tourist attractions, travel tips, and affordable dining options."
+
+**AI Response:**  
+Here’s a 7-day budget itinerary for Singapore & Malaysia:  
+- **Day 1–2 (Singapore):** Visit Marina Bay Sands, Gardens by the Bay, and Little India. Try “Komala Vilas” for authentic Indian meals. Stay at capsule hostels near Chinatown.  
+- **Day 3–4:** Explore Sentosa Island and Universal Studios. Take the night bus to Kuala Lumpur.  
+- **Day 5–6 (Malaysia):** Visit Batu Caves, Petronas Towers, and Jalan Alor Night Market. Dine at “Passage Thru India.”  
+- **Day 7:** Explore Penang’s George Town for street art and Indian food in Little India.  
+Total cost under $700 with hostel stays and local transport.""" ,
+
+    "prompt2.md": """# Prompt 2: One-Shot — Fitness Routine Assistant
+
+**Scenario:** Beginner muscle-building workout plan without equipment.
+
+**Example Workout:**  
+- Push-ups: 3 sets of 10  
+- Squats: 3 sets of 15  
+- Plank: 3 sets, 30 seconds each  
+
+**Prompt:**  
+"Based on the example above, create a 4-week progressive no-equipment workout plan for beginners to build muscle."
+
+**AI Response:**  
+Week 1–2: Focus on form. Add lunges and mountain climbers.  
+Week 3: Increase reps to 20 per set, hold planks for 45 seconds.  
+Week 4: Add burpees and tricep dips using a chair.  
+Rest 1 day per week and maintain a protein-rich diet.""" ,
+
+    "prompt3.md": """# Prompt 3: Few-Shot — Book Recommendation Engine
+
+**Scenario:** Mystery novels with strong female leads.
+
+**Examples:**  
+1. “Gone Girl” by Gillian Flynn  
+2. “The Girl with the Dragon Tattoo” by Stieg Larsson  
+3. “Big Little Lies” by Liane Moriarty  
+
+**Prompt:**  
+"Based on these examples, suggest 3 more mystery novels featuring strong female leads."
+
+**AI Response:**  
+1. “The Silent Patient” by Alex Michaelides  
+2. “Sharp Objects” by Gillian Flynn  
+3. “The Woman in the Window” by A.J. Finn""" ,
+
+    "prompt4.md": """# Prompt 4: Role-Based — Personal Finance Advisor
+
+**Scenario:** Saving for a car in 2 years.
+
+**Prompt:**  
+"Act as my financial advisor and create a 2-year savings plan to help me save ₹5,00,000 for a new car. Include monthly saving goals, investment options, and budgeting tips."
+
+**AI Response:**  
+You’ll need to save ₹20,833 per month. Allocate:  
+- 60% to recurring deposits (safe)  
+- 30% to mutual funds (growth)  
+- 10% to emergency fund.  
+Track expenses with apps like Walnut. Avoid non-essential spending and review progress quarterly.""" ,
+
+    "prompt5.md": """# Prompt 5: Chain-of-Thought — Home Renovation Planner
+
+**Scenario:** Modern kitchen renovation under budget.
+
+**Prompt:**  
+"Step-by-step, explain how to plan a modern kitchen renovation with a ₹1,00,000 budget. Include justification for costs and affordable material suggestions."
+
+**AI Response:**  
+1. **Assess layout (₹0):** Keep existing plumbing to save cost.  
+2. **Cabinets (₹30,000):** Use MDF with laminate finish.  
+3. **Tiles & Paint (₹20,000):** Simple white tiles, matte walls.  
+4. **Lighting (₹10,000):** LED strips for modern touch.  
+5. **Appliances (₹40,000):** Choose budget brands.  
+Result: A modern, functional kitchen under ₹1L.""" ,
+
+    "prompt6.md": """# Prompt 6: Instruction + Refinement — Technology Tutorial Guide
+
+**Scenario:** Simplify a blockchain article.
+
+**Prompt 1:** "Summarize this technical blockchain article into key points."  
+**Prompt 2:** "Now simplify it for beginners with examples and visuals."
+
+**AI Response:**  
+- Blockchain is a digital ledger shared across computers.  
+- Each record (block) links to the previous one.  
+- Simplified: Think of it like Google Sheets shared with everyone but locked for editing once filled.""" ,
+
+    "prompt7.md": """# Prompt 7: Constrained Format — Diet Plan Generator
+
+**Scenario:** High-protein vegetarian diet.
+
+**Prompt:**  
+"Create a 7-day high-protein vegetarian diet plan in a Markdown table with columns for Meal, Calories, and Protein Content."
+
+**AI Response:**  
+| Meal | Calories | Protein (g) |  
+|------|-----------|--------------|  
+| Breakfast: Paneer toast | 350 | 22 |  
+| Lunch: Lentil curry + rice | 500 | 25 |  
+| Dinner: Tofu stir-fry | 450 | 30 |""" ,
+
+    "prompt8.md": """# Prompt 8: Evaluation Prompt — Interview Prep Critique
+
+**Scenario:** React.js interview prep plan.
+
+**Prompt:**  
+"Here’s my React.js study plan: Hooks, Lifecycle, Routing, Redux, and APIs. Please critique it and suggest improvements."
+
+**AI Response:**  
+Good start! Add:  
+- React performance optimization (memo, lazy loading)  
+- Testing (Jest, React Testing Library)  
+- Projects for hands-on experience.  
+Practice explaining concepts aloud to strengthen communication.""" ,
+
+    "prompt9.md": """# Prompt 9: Multi-Turn Prompting — Pet Care Planner
+
+**Scenario:** Labrador puppy care routine.
+
+**Prompt 1:** "Create a daily routine for a Labrador puppy (feeding, training, grooming)."  
+**Prompt 2:** "Now refine it for a 6-month-old puppy."  
+
+**AI Response:**  
+Feed thrice daily, walk twice, train for 15 mins.  
+For 6 months old: Reduce feeding to twice daily, add advanced obedience commands and weekly grooming.""" ,
+
+    "prompt10.md": """# Prompt 10: Role + JSON Output — Event Planner Assistant
+
+**Scenario:** Space-themed birthday party for a 10-year-old.
+
+**Prompt:**  
+"Act as an event planner. Create a JSON structure for a space-themed birthday party (games, decor, menu)."  
+
+**AI Response:**  
+```json
+{
+  "theme": "Space Adventure",
+  "games": ["Alien Hunt", "Rocket Race"],
+  "decor": ["Glow stars", "Planet balloons"],
+  "menu": ["Galaxy cupcakes", "Meteor popcorn"]
+}
+```""" ,
+
+    "prompt11.md": """# Prompt 11: One-Shot with Output Constraints — Gardening Advice Tool
+
+**Scenario:** Vegetable gardening.
+
+**Example:** "Tomato — water daily, use compost."  
+**Prompt:** "Give 3 more vegetables in bullet points with watering & care info."
+
+**AI Response:**  
+- **Spinach:** Water every 2 days, partial sunlight.  
+- **Carrot:** Water weekly, loose soil.  
+- **Cabbage:** Keep soil moist, full sunlight.""" ,
+
+    "prompt12.md": """# Prompt 12: Zero-Shot + CoT — Historical Event Explorer
+
+**Scenario:** American Revolution.
+
+**Prompt:**  
+"Explain the American Revolution with a timeline, step-by-step causes, and major outcomes."
+
+**AI Response:**  
+**Timeline:** 1765–1783  
+**Causes:** Taxation without representation → Boston Tea Party → Declaration of Independence.  
+**Outcomes:** U.S. independence, democratic constitution, global influence on revolutions.""" ,
+
+    "prompt13.md": """# Prompt 13: Few-shot Classification Prompt — Music Playlist Generator
+
+**Scenario:** 90s themed party playlist.
+
+**Examples:**  
+- “Smells Like Teen Spirit” – Rock  
+- “Wannabe” – Pop  
+- “California Love” – Hip-Hop  
+
+**Prompt:**  
+"Continue this playlist with 3 more 90s songs and classify each by genre."
+
+**AI Response:**  
+- “I Want It That Way” – Pop  
+- “Enter Sandman” – Rock  
+- “No Scrubs” – R&B""" ,
+
+    "prompt14.md": """# Prompt 14: Comparison Prompt — Online Shopping Assistant
+
+**Scenario:** Graphic design laptop under $1000.
+
+**Prompt:**  
+"Compare 3 laptops for graphic design under $1000 in a Markdown table with pros and cons."
+
+**AI Response:**  
+| Laptop | Pros | Cons |
+|---------|------|------|
+| Acer Aspire 7 | Good GPU, budget price | Average battery |
+| HP Pavilion 15 | Bright display | Slightly heavy |
+| Dell Inspiron 14 | Compact design | Limited ports |"""
+}
+

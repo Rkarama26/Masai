@@ -1,0 +1,55 @@
+
+1. What is Artificial Intelligence (AI)?
+Artificial Intelligence (AI) is a branch of computer science that aims to create machines or systems capable of performing tasks that normally require human intelligence. These tasks include learning from experience, reasoning, understanding natural language, recognizing patterns, solving problems, and making decisions.
+Examples include virtual assistants (like Siri or Alexa), recommendation systems, and self-driving cars.
+
+2. What are Large Language Models (LLMs)? How do they work?
+Large Language Models (LLMs) are advanced AI systems trained on massive amounts of text data to understand and generate human-like language. Examples include GPT (Generative Pre-trained Transformer) models developed by OpenAI.
+
+How they work:
+- LLMs use a Transformer architecture, which processes text through layers of attention mechanisms.
+- During training, they learn to predict the next word in a sequence, capturing patterns, grammar, facts, and context from data.
+- Once trained, they can generate text, answer questions, translate languages, and perform reasoning tasks by predicting the most likely continuation of a given input.
+
+3. What is the difference between Traditional AI and Generative AI?
+
+Aspect | Traditional AI | Generative AI
+--------------------------------------------------
+Purpose | Focuses on analyzing data and making predictions or classifications. | Focuses on creating new content such as text, images, audio, or code.
+Examples | Spam filters, fraud detection, recommendation systems. | ChatGPT, DALL·E, Midjourney, Copilot.
+Learning Type | Mostly rule-based or discriminative (find patterns in existing data). | Uses deep learning models that generate new data similar to what they were trained on.
+Output | Predictive or decision-based. | Creative and generative.
+
+4. Explain the concept of “prompting” in the context of LLMs. Why is it important?
+Prompting is the process of giving a specific input or instruction to a language model to obtain a desired response. The prompt acts as a guide that influences how the model interprets and generates its output.
+
+Example:
+Prompt: “Write a paragraph about renewable energy in simple terms.”
+→ The model will generate a beginner-friendly explanation of renewable energy.
+
+Importance:
+- Determines the quality and accuracy of the output.
+- Helps tailor responses for tone, length, or detail.
+- Enables users to control how the model behaves or reasons about a topic.
+- Effective prompting can make AI responses more relevant, factual, and useful.
+
+5. What is the role of "tokens" in a language model, and how do they impact the output?
+In language models, tokens are the basic units of text that the model reads and generates. A token can be a word, part of a word, or even punctuation.
+
+Example:
+Sentence: “AI is powerful.”
+Tokens might be: [“AI”, “is”, “powerful”, “.”]
+
+Role and Impact:
+- Models process text as a sequence of tokens, predicting the next one at each step.
+- The token limit (maximum number of tokens per request) affects how long prompts and responses can be.
+- More tokens = longer processing time and higher computational cost.
+- The way text is tokenized influences meaning and context retention.
+
+6. What are some limitations or risks of using Generative AI models like ChatGPT?
+1. Hallucination: May produce false or misleading information that sounds correct.
+2. Bias: Can reflect or amplify biases present in training data.
+3. Privacy Issues: Might unintentionally reproduce sensitive or personal information from training data.
+4. Lack of Real Understanding: Models generate text based on patterns, not true comprehension.
+5. Ethical Concerns: Can be misused for plagiarism, misinformation, or fake content generation.
+6. Dependence: Overreliance on AI tools may reduce human creativity and critical thinking.
