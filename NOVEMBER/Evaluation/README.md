@@ -1,68 +1,76 @@
-# Book_Your_Show_Backend/
+# Book Your Show - Backend
 
-## This is the backend codebase for the Book Your Show application, built using Node.js and Express. It provides RESTful APIs for user authentication, event management, ticket booking, and admin reporting.
+Backend for the Book Your Show application, built with Node.js, Express and MongoDB.  
+Provides RESTful APIs for user authentication, event management, ticket booking and admin reports.
 
-│
-├── controllers/  
-│ ├── auth.controller.js
-│ ├── event.controller.js
-│ ├── ticket.controller.js
-│ └── admin.controller.js
-│
-├── services/  
-│ ├── event.service.js
-│ ├── ticket.service.js
-│ └── admin.service.js
-│
-├── models/  
-│ ├── user.model.js
-│ ├── event.model.js
-│ └── ticket.model.js
-│
-├── middlewares/  
-│ └── authMiddleware.js
-│
-├── routes/ # Express route files
-│ ├── auth.routes.js
-│ ├── event.routes.js
-│ ├── ticket.routes.js
-│ └── admin.routes.js
-│
-├── utils/ # Helper functions (email, etc.)
-│ └── sendEmail.js
-│
-├── .env # Environment variables
+## Project structure
+
+```
+Book_Your_Show_Backend/
+├── controllers/
+│   ├── auth.controller.js
+│   ├── event.controller.js
+│   ├── ticket.controller.js
+│   └── admin.controller.js
+├── services/
+│   ├── event.service.js
+│   ├── ticket.service.js
+│   └── admin.service.js
+├── models/
+│   ├── user.model.js
+│   ├── event.model.js
+│   └── ticket.model.js
+├── middlewares/
+│   └── authMiddleware.js
+├── routes/
+│   ├── auth.routes.js
+│   ├── event.routes.js
+│   ├── ticket.routes.js
+│   └── admin.routes.js
+├── utils/
+│   └── sendEmail.js
+├── .env
 ├── package.json
-├── server.js / index.js
-└── README.md
+└── server.js (or index.js)
+```
 
-### Setup Instructions
+## Setup
 
-1. Clone the repository:
+1. Clone and enter the repo:
 
-   ```bash
-   git clone <repository_url>
-   cd Evaluation
-   ```
+```bash
+git clone <repository_url>
+cd Evaluation
+```
 
 2. Install dependencies:
 
-   ```bash
+```bash
+npm install
+```
 
-    npm install
-   ```
+3. Create a `.env` file (use `.env_example` if present) and set required variables:
 
-3. Create a `.env` file in the root directory and add the following environment variables from `.env_example`:
-   ```
-   PORT=5000
-   MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/book_your_show
-   JWT_SECRET_KEY=your_jwt_secret
-   APP_EMAIL=your_gmail@gmail.com
-   GOOGLE_APP_PASSWORD=your_app_password
-   FROM_NAME="Book_Your_Show"
-   ```
+```
+PORT=5000
+MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/book_your_show
+JWT_SECRET_KEY=your_jwt_secret
+APP_EMAIL=your_gmail@gmail.com
+GOOGLE_APP_PASSWORD=your_app_password
+FROM_NAME="Book_Your_Show"
+```
 
-### Event Create request example
+4. Start the server (development):
+
+```bash
+npm run dev
+# or
+node server.js
+```
+
+## Common API examples
+
+- Create Event (POST /api/events)
 
 ```json
 {
@@ -73,7 +81,7 @@
 }
 ```
 
-### Ticket Booking request example
+- Book Ticket (POST /api/tickets)
 
 ```json
 {
@@ -82,7 +90,7 @@
 }
 ```
 
-### Admin Report Response example
+- Admin Report (GET /api/admin/report) — example response:
 
 ```json
 {
@@ -97,5 +105,7 @@
     ]
   }
 }
-
 ```
+
+
+
