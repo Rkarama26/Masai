@@ -1,0 +1,1 @@
+{"version":3,"file":"Mobile_Observer.d.ts","sourceRoot":"","sources":["Mobile_Observer.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,SAAS,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAC;AAEnD,qBAAa,cAAe,YAAW,SAAS;IAC9C,QAAQ,EAAE,MAAM,CAAC;gBACL,EAAE,EAAE,MAAM;IAItB,MAAM,CAAC,OAAO,EAAE,QAAQ,GAAG,IAAI;CAOhC"}
