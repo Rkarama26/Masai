@@ -1,0 +1,9 @@
+{
+  "type": "module",
+  "scripts": {
+    "start": "tsx PizzaClient.ts"
+  },
+  "dependencies": {
+    "tsx": "^4.20.6"
+  }
+}
