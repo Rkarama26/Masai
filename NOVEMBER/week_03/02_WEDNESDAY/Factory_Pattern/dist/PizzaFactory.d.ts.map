@@ -1,0 +1,1 @@
+{"version":3,"file":"PizzaFactory.d.ts","sourceRoot":"","sources":["../PizzaFactory.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,MAAM,EAAE,MAAM,YAAY,CAAC;AAEzC,8BAAsB,YAAY;IAChC,QAAQ,CAAC,WAAW,CAAC,IAAI,EAAE,MAAM,GAAG,MAAM;IAC1C,UAAU,CAAC,IAAI,EAAE,MAAM,GAAG,IAAI;CAQ/B"}
