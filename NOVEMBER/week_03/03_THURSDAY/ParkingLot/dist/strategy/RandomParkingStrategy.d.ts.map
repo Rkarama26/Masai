@@ -1,0 +1,1 @@
+{"version":3,"file":"RandomParkingStrategy.d.ts","sourceRoot":"","sources":["../../strategy/RandomParkingStrategy.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EACV,MAAM,EACN,gBAAgB,EAChB,KAAK,EACL,QAAQ,EACT,MAAM,mBAAmB,CAAC;AAE3B,qBAAa,qBAAsB,YAAW,gBAAgB;IAC5D,IAAI,CAAC,MAAM,EAAE,MAAM,EAAE,EAAE,OAAO,EAAE,QAAQ,GAAG,KAAK,GAAG,IAAI;CAcxD"}

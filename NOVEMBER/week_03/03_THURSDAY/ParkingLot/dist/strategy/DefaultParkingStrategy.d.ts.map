@@ -1,0 +1,1 @@
+{"version":3,"file":"DefaultParkingStrategy.d.ts","sourceRoot":"","sources":["../../strategy/DefaultParkingStrategy.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EACV,MAAM,EACN,gBAAgB,EAChB,KAAK,EACL,QAAQ,EACT,MAAM,mBAAmB,CAAC;AAE3B,qBAAa,sBAAuB,YAAW,gBAAgB;IAC7D,IAAI,CAAC,MAAM,EAAE,MAAM,EAAE,EAAE,OAAO,EAAE,QAAQ,GAAG,KAAK,GAAG,IAAI;CAUxD"}

@@ -1,0 +1,9 @@
+create_parking_lot PL123 2 6 nearest
+park_vehicle CAR KA-01-DB-1234 black
+display free_count CAR
+unpark_vehicle PL123_0_4
+park_vehicle EV-Car KA-02-EV-5678 white
+display free_count EV-Car
+unpark_vehicle PL123_0_6
+display free_count BIKE
+exit
