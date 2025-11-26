@@ -1,0 +1,1 @@
+{"version":3,"file":"ProessingState.d.ts","sourceRoot":"","sources":["../../states/ProessingState.ts"],"names":[],"mappings":"AAAA,OAAQ,EAAE,OAAO,EAAE,YAAY,EAAE,MAAM,UAAU,CAAC;AAElD,qBAAa,gBAAiB,YAAW,YAAY;IACnD,UAAU,CAAC,OAAO,EAAE,OAAO,GAAG,IAAI;IAGlC,aAAa,CAAC,OAAO,EAAE,OAAO,GAAG,IAAI;IAGrC,eAAe,CAAC,OAAO,EAAE,OAAO,GAAG,IAAI;CAGxC"}

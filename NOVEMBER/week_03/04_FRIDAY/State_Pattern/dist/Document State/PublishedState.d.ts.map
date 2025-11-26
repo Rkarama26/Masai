@@ -1,0 +1,1 @@
+{"version":3,"file":"PublishedState.d.ts","sourceRoot":"","sources":["../../Document State/PublishedState.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,GAAG,EAAE,aAAa,EAAE,MAAM,UAAU,CAAC;AACnD,OAAO,KAAK,EAAE,IAAI,EAAE,MAAM,SAAS,CAAC;AAEpC,qBAAa,cAAe,YAAW,aAAa;IAClD,OAAO,CAAC,QAAQ,EAAE,GAAG,EAAE,IAAI,EAAE,IAAI,GAAG,IAAI;CAIzC"}

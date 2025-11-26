@@ -1,0 +1,1 @@
+{"version":3,"file":"ModerationState.d.ts","sourceRoot":"","sources":["../../Document State/ModerationState.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,GAAG,EAAE,aAAa,EAAE,MAAM,UAAU,CAAC;AACnD,OAAO,KAAK,EAAE,IAAI,EAAE,MAAM,SAAS,CAAC;AAGpC,qBAAa,eAAgB,YAAW,aAAa;IACnD,OAAO,CAAC,QAAQ,EAAE,GAAG,EAAE,IAAI,EAAE,IAAI,GAAG,IAAI;CAgBzC"}

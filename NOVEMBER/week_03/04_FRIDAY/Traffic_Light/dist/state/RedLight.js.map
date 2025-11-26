@@ -1,0 +1,1 @@
+{"version":3,"file":"RedLight.js","sourceRoot":"","sources":["../../state/RedLight.ts"],"names":[],"mappings":";;;AACA,+CAA4C;AAE5C,MAAa,QAAQ;IACnB,MAAM,CAAC,KAAqB;QAC1B,OAAO,CAAC,GAAG,CAAC,0BAA0B,CAAC,CAAC;QACxC,KAAK,CAAC,QAAQ,CAAC,IAAI,yBAAW,EAAE,CAAC,CAAC;IACpC,CAAC;CACF;AALD,4BAKC"}

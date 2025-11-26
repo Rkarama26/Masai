@@ -1,0 +1,1 @@
+{"version":3,"file":"DraftState.js","sourceRoot":"","sources":["../../Document State/DraftState.ts"],"names":[],"mappings":";;;AAEA,uDAAoD;AAEpD,MAAa,UAAU;IACrB,OAAO,CAAC,QAAa,EAAE,IAAU;QAC/B,OAAO,CAAC,GAAG,CACT,GAAG,QAAQ,CAAC,IAAI,qCAAqC,IAAI,CAAC,IAAI,EAAE,CACjE,CAAC;QACF,QAAQ,CAAC,QAAQ,CAAC,IAAI,iCAAe,EAAE,CAAC,CAAC;IAC3C,CAAC;CACF;AAPD,gCAOC"}

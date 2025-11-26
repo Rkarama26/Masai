@@ -1,0 +1,1 @@
+{"version":3,"file":"TrafficLight.d.ts","sourceRoot":"","sources":["../TrafficLight.ts"],"names":[],"mappings":"AACA,OAAO,KAAK,EAAE,OAAO,EAAE,cAAc,EAAE,MAAM,SAAS,CAAC;AAEvD,qBAAa,YAAa,YAAW,cAAc;IACjD,KAAK,EAAE,OAAO,CAAC;gBAEH,KAAK,CAAC,EAAE,OAAO;IAI3B,MAAM,IAAI,IAAI;IAId,QAAQ,CAAC,KAAK,EAAE,OAAO,GAAG,IAAI;CAG/B"}
