@@ -1,0 +1,19 @@
+ElevatorManager --> Elevator , IElevatorStates,  ElevatorSelector
+
+ElevatorManager = Data
+ElevatorSelector = Logic
+Elevator
+ElevatorState
+
+
+IElevatorStates{
+ moveToFloor, openDoor, closeDoor
+} 
+
+OpenDoorStateImpl{
+    moveToFloor -> can not move 
+    openDoor -> already open 
+    closeDoor -> 
+
+
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"IElevatorSelector.d.ts","sourceRoot":"","sources":["../IElevatorSelector.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,QAAQ,EAAE,MAAM,YAAY,CAAC;AAC3C,OAAO,KAAK,EAAE,eAAe,EAAE,MAAM,mBAAmB,CAAC;AAEzD,MAAM,WAAW,iBAAiB;IAChC,cAAc,CAAC,SAAS,EAAE,QAAQ,EAAE,EAAE,OAAO,EAAE,eAAe,GAC9D,QAAQ,GAAG,IAAI,CAAC;CACjB"}

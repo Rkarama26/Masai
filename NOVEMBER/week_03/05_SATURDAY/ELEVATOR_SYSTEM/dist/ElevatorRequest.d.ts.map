@@ -1,0 +1,1 @@
+{"version":3,"file":"ElevatorRequest.d.ts","sourceRoot":"","sources":["../ElevatorRequest.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,aAAa,CAAC;AAExC,qBAAa,eAAe;IAC1B,YAAY,EAAE,MAAM,CAAC;IACrB,gBAAgB,EAAE,MAAM,CAAC;IACzB,SAAS,EAAE,SAAS,CAAC;gBAET,YAAY,EAAE,MAAM,EAAE,gBAAgB,EAAE,MAAM;CAO3D"}
