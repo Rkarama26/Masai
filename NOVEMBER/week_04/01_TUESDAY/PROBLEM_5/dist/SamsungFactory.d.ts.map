@@ -1,0 +1,1 @@
+{"version":3,"file":"SamsungFactory.d.ts","sourceRoot":"","sources":["../SamsungFactory.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,aAAa,EAAE,MAAM,iBAAiB,CAAC;AAEhD,OAAO,EAAE,MAAM,EAAE,MAAM,UAAU,CAAC;AAMlC,qBAAa,cAAe,YAAW,aAAa;IAChD,YAAY,CAAC,IAAI,EAAE,MAAM,GAAG,MAAM;CASrC"}

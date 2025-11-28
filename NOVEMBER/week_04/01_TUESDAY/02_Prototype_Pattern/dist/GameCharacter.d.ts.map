@@ -1,0 +1,1 @@
+{"version":3,"file":"GameCharacter.d.ts","sourceRoot":"","sources":["../GameCharacter.ts"],"names":[],"mappings":"AAAA,qBAAa,aAAa;IAEX,IAAI,EAAE,MAAM;IACZ,KAAK,EAAE,MAAM;IACb,MAAM,EAAE,MAAM;gBAFd,IAAI,EAAE,MAAM,EACZ,KAAK,EAAE,MAAM,EACb,MAAM,EAAE,MAAM;IAGzB,KAAK,IAAI,aAAa;IAItB,QAAQ,IAAI,MAAM;CAGrB"}

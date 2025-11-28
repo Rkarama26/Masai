@@ -1,0 +1,6 @@
+import { DeviceFactory } from './DeviceFactory';
+import { Device } from './Device';
+export declare class AppleFactory implements DeviceFactory {
+    createDevice(type: string): Device;
+}
+//# sourceMappingURL=AppleFactory.d.ts.map
