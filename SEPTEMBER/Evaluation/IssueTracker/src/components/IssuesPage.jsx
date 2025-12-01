@@ -93,7 +93,7 @@ export default function IssuesPage() {
                 setIssues(onlyIssues);
             } catch (err) {
                 if (cancelled) return;
-                setError(err.response?.status === 404 ? "Repository not found" : err.message);
+                setError(err.response?.status === 404 ? "Repository not" : err.message);
             } finally {
                 if (!cancelled) setLoading(false);
             }

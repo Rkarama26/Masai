@@ -18,9 +18,9 @@ export const AuthProvider = ({ children }) => {
         try {
             const res = await axios.post(`${baseURL}users.json`, newUser);
             if (res.status === 200) {
-                setuser(newUser);
+                 setuser(newUser);
                 localStorage.setItem("user", JSON.stringify(newUser));
-            }
+             }
         } catch (error) {
             console.log("Error", error)
         }

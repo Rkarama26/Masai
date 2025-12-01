@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const url = "https://jsonplaceholder.typicode.com/users"
+        async function fetchData() {
+            const res = await fetch(url);
+            const data = await res.json();
+            console.log(data);
+
+            const filtered = data.filter((item) => (item.name).toLowerCase() !== "Leanne Graham".toLowerCase())
+            console.log(filtered)
+
+            const startWith = data.filter((item) => item.name.toUpperCase().startsWith('P')).map(item => item.name)
+            // console.log(startWith)
+        }
+
+        fetchData()
+
+        
+
+    </script>
+</body>
+
+</html>
